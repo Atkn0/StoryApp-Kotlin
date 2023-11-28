@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "317387024223",
+    "project_id": "storyapp-kotlin",
+    "storage_bucket": "storyapp-kotlin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:317387024223:android:36a01c1b4488c8b276f8ea",
+        "android_client_info": {
+          "package_name": "com.example.storyapp_kotlin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjD_gRdXI27ffSk4--yYbx06euSwIGDM0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

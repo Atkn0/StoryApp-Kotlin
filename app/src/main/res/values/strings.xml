@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">StoryApp-Kotlin</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="loginHelloThere">Hello, There!</string>
+    <string name="signInText">Sign in to continue using our app</string>
+</resources>
