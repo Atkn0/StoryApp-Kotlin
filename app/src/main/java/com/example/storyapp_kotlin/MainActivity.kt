@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         //checks user sign status
         var userStatusCheck = authViewModel.checkUserSıgnStatus()
+        userStatusCheck = false
         if (userStatusCheck){
             changeFragment(allStoriesHomePageFragment())
             userStatusCheck = !userStatusCheck
