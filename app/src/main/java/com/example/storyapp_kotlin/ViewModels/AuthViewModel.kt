@@ -24,9 +24,12 @@ class AuthViewModel : ViewModel(){
     }
 
     fun updateUserSignInStatus(){
-
         isUserSignedIn.value = auth.currentUser != null
+    }
 
+    fun checkUserSıgnStatus() : Boolean{
+        auth = Firebase.auth
+        return auth.currentUser != null
     }
 
 
