@@ -1,14 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Views.signupFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/RegisterText"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="25dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:textSize="15sp"
+
+        android:text="@string/signInText">
+    </TextView>
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:hint="Email"
+        app:layout_constraintTop_toBottomOf="@id/RegisterText"
+        android:layout_height="40dp"
+        tools:ignore="HardcodedText">
+    </EditText>
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
+        android:hint="Password"
+        android:layout_height="40dp"
+        tools:ignore="HardcodedText">
+    </EditText>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
+        android:id="@+id/signUpButton"
+        tools:ignore="HardcodedText">
+
+    </com.google.android.material.button.MaterialButton>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

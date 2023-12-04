@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.NavHostFragment
+import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.ViewModels.AuthViewModel
 import com.example.storyapp_kotlin.databinding.FragmentLoginBinding
 
@@ -41,15 +43,29 @@ class loginFragment : Fragment() {
             }
         }
 
+        userSignCheckStatus()
+
+        binding.dontHaveAccountTextView.setOnClickListener {
+            navigateFromLoginPage(R.id.action_loginFragment_to_signupFragment)
+        }
+    }
+
+
+    fun navigateFromLoginPage(action : Int){
+        val navHost =
+            activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+        val navController = navHost.navController
+        navController.navigate(action)
+    }
+
+    fun userSignCheckStatus(){
         authViewModel.isUserSignedIn.observe(viewLifecycleOwner){ task->
             if (task) {
-                println("User is signed in")
+                navigateFromLoginPage(R.id.action_loginFragment_to_allStoriesHomePageFragment)
             } else {
                 println("User is not signed in")
             }
         }
-
     }
-
 
 }
