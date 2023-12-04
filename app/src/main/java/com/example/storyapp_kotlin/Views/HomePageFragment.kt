@@ -5,56 +5,128 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.widget.Toast
+import androidx.viewpager2.widget.ViewPager2
+import com.example.storyapp_kotlin.Adapters.ViewPagerAdapter
 import com.example.storyapp_kotlin.R
+import com.example.storyapp_kotlin.databinding.FragmentHomePageBinding
+import com.google.android.material.tabs.TabLayout
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomePageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomePageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentHomePageBinding
+    private lateinit var viewPager : ViewPager2
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
+    private lateinit var fragmentList: List<Fragment>
+    private lateinit var tabLayout: TabLayout
+    private var clicked : Boolean = false
+
+    //Kısaltılabilir mi diye bir bak!
+    private val rotateOpen : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
+    private val rotateClose : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim) }
+    private val fromBottom : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.from_bottom_anim) }
+    private val toBottom : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.to_bottom_anim) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_page, container, false)
+        binding = FragmentHomePageBinding.inflate(inflater, container, false)
+
+        initializeViewPager()
+        initializeTabLayout()
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomePageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomePageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.fabButton.setOnClickListener {
+            onAddButtonClicked()
+        }
+
+        binding.fabStoryButton.setOnClickListener {
+            Toast.makeText(context, "Story Button Clicked", Toast.LENGTH_SHORT).show()
+        }
+        binding.fabProfileButton.setOnClickListener {
+            Toast.makeText(context, "Profile Button Clicked", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                tabLayout.selectTab(tabLayout.getTabAt(position))
             }
+        })
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                viewPager.currentItem = tab!!.position
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
+        })
+
+    }
+
+    private fun onAddButtonClicked() {
+        setVisibility(clicked)
+        setAnimation(clicked)
+        clicked = !clicked
+    }
+
+    private fun setAnimation(clicked : Boolean) {
+        if (!clicked){
+            binding.fabStoryButton.startAnimation(fromBottom)
+            binding.fabProfileButton.startAnimation(fromBottom)
+            binding.fabButton.startAnimation(rotateOpen)
+        }else{
+            binding.fabStoryButton.startAnimation(toBottom)
+            binding.fabProfileButton.startAnimation(toBottom)
+            binding.fabButton.startAnimation(rotateClose)
+        }
+    }
+
+    private fun setVisibility(clicked : Boolean) {
+        if (!clicked){
+            binding.fabStoryButton.visibility = View.VISIBLE
+            binding.fabProfileButton.visibility = View.VISIBLE
+        }else{
+            binding.fabStoryButton.visibility = View.INVISIBLE
+            binding.fabProfileButton.visibility = View.INVISIBLE
+        }
+    }
+
+
+    fun initializeViewPager(){
+
+        fragmentList = arrayListOf<Fragment>(CompleteTheStory(), FinishedStories())
+        viewPager = binding.viewPager
+        viewPagerAdapter = ViewPagerAdapter(this, fragmentList)
+        viewPager.adapter = viewPagerAdapter
+    }
+
+    fun initializeTabLayout(){
+        tabLayout = binding.tabLayout
+        tabLayout.addTab(tabLayout.newTab().setText("Complete The Story"))
+        tabLayout.addTab(tabLayout.newTab().setText("Finished Stories"))
+        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
+
+
     }
 }

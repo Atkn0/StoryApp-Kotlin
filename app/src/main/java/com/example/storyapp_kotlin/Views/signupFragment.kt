@@ -54,7 +54,7 @@ class signupFragment : Fragment() {
     fun checkUserSignInStatus(){
         authViewModel.isUserSignedIn.observe(viewLifecycleOwner) { value ->
             if (value) {
-                navigateFromRegisterPage(R.id.action_signupFragment_to_allStoriesHomePageFragment)
+                navigateFromRegisterPage(R.id.action_signupFragment_to_homePageFragment)
             }
         }
     }

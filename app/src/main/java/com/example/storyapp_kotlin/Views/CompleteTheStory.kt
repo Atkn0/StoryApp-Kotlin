@@ -5,11 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.databinding.FragmentAllStoriesHomePageBinding
 
 
-class allStoriesHomePageFragment : Fragment() {
+class CompleteTheStory : Fragment() {
 
     private lateinit var binding: FragmentAllStoriesHomePageBinding
 
