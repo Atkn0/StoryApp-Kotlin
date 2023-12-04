@@ -1,7 +1,7 @@
 package com.example.storyapp_kotlin.ViewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.storyapp_kotlin.UserModel
+import com.example.storyapp_kotlin.Models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -18,8 +18,6 @@ class AuthViewModel : ViewModel(){
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    println("Login Success")
-
                     updateUserSignInStatus()
                 } else {
                     println("Login Failed")
@@ -33,8 +31,8 @@ class AuthViewModel : ViewModel(){
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     updateUserSignInStatus()
-                    val testUserModel = UserModel(0,"a")
-                    addUserToDatabase(testUserModel)
+                    val userModel = UserModel(auth.currentUser?.uid.toString(), email)
+                    addUserToDatabase(userModel)
                 } else {
                     println("Create User Failed")
                 }
@@ -53,14 +51,14 @@ class AuthViewModel : ViewModel(){
     fun addUserToDatabase(user : UserModel){
 
         //checks that if the value return null for auth.currentUser
-        val uniqeUserId = auth.currentUser?.uid
-        println("User Id : $uniqeUserId")
+        val uniqeUserId = user.userId
 
-        db.collection("Users").document(uniqeUserId!!).set(user)
+        db.collection("Users").document(uniqeUserId.toString()).set(user)
             .addOnSuccessListener {
                 println("User Added")
             }
             .addOnFailureListener {
+                println("failed" + it.message)
                 println("User Not Added")
             }
 
