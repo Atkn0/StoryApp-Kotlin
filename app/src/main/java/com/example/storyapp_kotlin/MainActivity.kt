@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.example.storyapp_kotlin.ViewModels.AuthViewModel
 import com.example.storyapp_kotlin.Views.CompleteTheStory
 import com.example.storyapp_kotlin.Views.HomePageFragment
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         //checks user sign status
         var userStatusCheck = authViewModel.checkUserSıgnStatus()
         if (userStatusCheck){
-            changeFragment(HomePageFragment())
+            navigateFunc(R.id.action_loginFragment_to_homePageFragment)
             userStatusCheck = !userStatusCheck
         }
 
@@ -32,11 +33,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    fun changeFragment(fragment: Fragment){
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.fragmentContainerView2, fragment)
-            commit()
-        }
+
+    fun navigateFunc(action : Int){
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+        val navController = navHost.navController
+        navController.navigate(action)
     }
 
 }

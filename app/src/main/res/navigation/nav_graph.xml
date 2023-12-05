@@ -33,5 +33,18 @@
         android:id="@+id/homePageFragment"
         android:name="com.example.storyapp_kotlin.Views.HomePageFragment"
         android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" />
+        tools:layout="@layout/fragment_home_page" >
+        <action
+            android:id="@+id/action_homePageFragment_to_createStoryFragment"
+            app:destination="@id/createStoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createStoryFragment"
+        android:name="com.example.storyapp_kotlin.Views.createStoryFragment"
+        android:label="fragment_create_story"
+        tools:layout="@layout/fragment_create_story" >
+        <action
+            android:id="@+id/action_createStoryFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
 </navigation>
