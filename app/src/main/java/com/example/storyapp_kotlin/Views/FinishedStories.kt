@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.databinding.FragmentAllStoriesHomePageBinding
+import com.example.storyapp_kotlin.databinding.FragmentFinishedStoriesBinding
 
 
-class allStoriesHomePageFragment : Fragment() {
+class FinishedStories : Fragment() {
 
-    private lateinit var binding: FragmentAllStoriesHomePageBinding
+    private lateinit var binding: FragmentFinishedStoriesBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +23,9 @@ class allStoriesHomePageFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentAllStoriesHomePageBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        // Inflate the layout for this fragment
+        binding = FragmentFinishedStoriesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
 

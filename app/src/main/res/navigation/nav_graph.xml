@@ -14,8 +14,8 @@
             android:id="@+id/action_loginFragment_to_signupFragment"
             app:destination="@id/signupFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_allStoriesHomePageFragment"
-            app:destination="@id/allStoriesHomePageFragment" />
+            android:id="@+id/action_loginFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
@@ -26,12 +26,25 @@
             android:id="@+id/action_signupFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_signupFragment_to_allStoriesHomePageFragment"
-            app:destination="@id/allStoriesHomePageFragment" />
+            android:id="@+id/action_signupFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
     </fragment>
     <fragment
-        android:id="@+id/allStoriesHomePageFragment"
-        android:name="com.example.storyapp_kotlin.Views.allStoriesHomePageFragment"
-        android:label="fragment_all_stories_home_page"
-        tools:layout="@layout/fragment_all_stories_home_page" />
+        android:id="@+id/homePageFragment"
+        android:name="com.example.storyapp_kotlin.Views.HomePageFragment"
+        android:label="fragment_home_page"
+        tools:layout="@layout/fragment_home_page" >
+        <action
+            android:id="@+id/action_homePageFragment_to_createStoryFragment"
+            app:destination="@id/createStoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createStoryFragment"
+        android:name="com.example.storyapp_kotlin.Views.createStoryFragment"
+        android:label="fragment_create_story"
+        tools:layout="@layout/fragment_create_story" >
+        <action
+            android:id="@+id/action_createStoryFragment_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
 </navigation>

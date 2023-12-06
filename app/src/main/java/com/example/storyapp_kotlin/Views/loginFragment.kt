@@ -61,7 +61,7 @@ class loginFragment : Fragment() {
     fun userSignCheckStatus(){
         authViewModel.isUserSignedIn.observe(viewLifecycleOwner){ task->
             if (task) {
-                navigateFromLoginPage(R.id.action_loginFragment_to_allStoriesHomePageFragment)
+                navigateFromLoginPage(R.id.action_loginFragment_to_homePageFragment)
             } else {
                 println("User is not signed in")
             }
