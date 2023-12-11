@@ -25,6 +25,12 @@ class AuthViewModel : ViewModel(){
             }
     }
 
+    fun userSignOut(){
+        auth = Firebase.auth
+        auth.signOut()
+        updateUserSignInStatus()
+    }
+
     fun createUser(email : String, password : String){
         auth = Firebase.auth
         auth.createUserWithEmailAndPassword(email, password)

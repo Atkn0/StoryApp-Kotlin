@@ -11,6 +11,7 @@ import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
 class FirestoreViewModel : ViewModel() {
+    //try this implementation with dagger hilt!
     val db = Firebase.firestore
     val auth = Firebase.auth
 
@@ -31,7 +32,9 @@ class FirestoreViewModel : ViewModel() {
 
     private suspend fun checkUserCredit(userUID : String) : Boolean{
         return try {
+
             val documentSnapshot = users_ref.document(userUID).get().await()
+            println("documentSnapshot : $documentSnapshot")
             val userModel = UserModel(
                 userId = documentSnapshot.getString("userId")!!,
                 email = documentSnapshot.getString("email")!!,

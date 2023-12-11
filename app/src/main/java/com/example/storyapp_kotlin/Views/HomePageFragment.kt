@@ -55,14 +55,16 @@ class HomePageFragment : Fragment() {
             fabButton.setOnClickListener { onAddButtonClicked() }
             fabStoryButton.setOnClickListener { addStoryButtonClicked() }
             fabProfileButton.setOnClickListener {
-                Toast.makeText(context, "Profile Button Clicked", Toast.LENGTH_SHORT).show()
+                addProfileButtonClicked()
             }
         }
 
         setupViewPagerAndTabs()
     }
 
-
+    private fun addProfileButtonClicked() {
+        navigateFromHomePage(R.id.action_homePageFragment_to_profilePageFragment)
+    }
 
     fun setupViewPagerAndTabs(){
 
