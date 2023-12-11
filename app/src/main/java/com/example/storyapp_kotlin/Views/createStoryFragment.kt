@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.storyapp_kotlin.Models.StoryModel
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.ViewModels.FirestoreViewModel
@@ -44,7 +45,7 @@ class createStoryFragment : Fragment() {
 
     private fun createStory() {
         val storyContent = binding.editTextTextMultiLine.text.toString()
-        GlobalScope.launch {
+        lifecycleScope.launch {
             firestoreViewModel.createStory(storyContent)
         }
     }
