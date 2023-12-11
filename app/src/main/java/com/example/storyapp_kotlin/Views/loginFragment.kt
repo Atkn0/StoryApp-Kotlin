@@ -7,15 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
+import com.example.storyapp_kotlin.NavigationHelper.NavigationHelper
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.ViewModels.AuthViewModel
 import com.example.storyapp_kotlin.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
+@AndroidEntryPoint
 class loginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val authViewModel : AuthViewModel by viewModels()
+
+    @Inject
+    lateinit var navigationHelper: NavigationHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +64,7 @@ class loginFragment : Fragment() {
         val navController = navHost.navController
         navController.navigate(action)
     }
+
 
     fun userSignCheckStatus(){
         authViewModel.isUserSignedIn.observe(viewLifecycleOwner){ task->

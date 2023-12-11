@@ -1,5 +1,7 @@
 package com.example.storyapp_kotlin.ViewModels
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.example.storyapp_kotlin.Models.StoryModel
 import com.example.storyapp_kotlin.Models.UserModel
@@ -10,7 +12,7 @@ import com.google.firebase.firestore.auth.User
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
-class FirestoreViewModel : ViewModel() {
+class FirestoreViewModel() : ViewModel() {
     val db = Firebase.firestore
     val auth = Firebase.auth
 
@@ -18,17 +20,17 @@ class FirestoreViewModel : ViewModel() {
     val users_ref = db.collection("Users")
 
 
-   suspend fun createStory(storyContent : String){
+    suspend fun createStory(storyContent : String, context : Context){
 
-       val userUID = auth.currentUser!!.uid
-       val hasEnoughCredit = checkUserCredit(userUID)
+        // Bu kısım viewModel içerisinde de halledilebilir tekrar bak!
+        val userUID = auth.currentUser!!.uid
+        val hasEnoughCredit = checkUserCredit(userUID)
 
-       if (hasEnoughCredit){ addCreatedStoryToFirestore(userUID,storyContent) }
-       else{ println("User has not enough credit") }
+        if (hasEnoughCredit){ addCreatedStoryToFirestore(userUID,storyContent,context) }
+        // Toast message ile uyarı ekle!
+        else{ Toast.makeText(context,"You don't have enough credit to create a story",Toast.LENGTH_SHORT).show() }
 
     }
-
-
     private suspend fun checkUserCredit(userUID : String) : Boolean{
         return try {
             val documentSnapshot = users_ref.document(userUID).get().await()
@@ -42,12 +44,12 @@ class FirestoreViewModel : ViewModel() {
             userModel.storyCreationCredit > 0
         }
         catch (e : Exception){
-            println("Error in checkUserCredit function")
+            println(e.message)
             false
         }
 
     }
-    private fun addCreatedStoryToFirestore(userUID : String,storyContent: String){
+    private fun addCreatedStoryToFirestore(userUID : String,storyContent: String,context: Context){
 
         val storyModel = StoryModel(
             storyContent = storyContent,
@@ -64,13 +66,15 @@ class FirestoreViewModel : ViewModel() {
             .document(storyID)
             .set(storyModel)
             .addOnSuccessListener {
-                println("Story Created")
+                createToastMessage(context = context,message = "Story Created")
             }
             .addOnFailureListener {
-                println("Story Creation Failed")
+                createToastMessage(context = context,message = "Story Creation Failed")
             }
 
     }
 
-
+    fun createToastMessage(context : Context,message : String){
+        Toast.makeText(context,message,Toast.LENGTH_SHORT).show()
+    }
 }

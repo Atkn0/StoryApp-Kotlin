@@ -1,5 +1,6 @@
 package com.example.storyapp_kotlin.Views
 
+import android.content.Context
 import android.os.Binder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.storyapp_kotlin.Models.StoryModel
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.ViewModels.FirestoreViewModel
@@ -19,6 +22,7 @@ class createStoryFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateStoryBinding
     private val firestoreViewModel : FirestoreViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,16 +40,22 @@ class createStoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val context = requireContext()
+
         binding.createStorybutton.setOnClickListener {
-            createStory()
+            createStory(context)
         }
+
+
+
 
     }
 
-    private fun createStory() {
+    private fun createStory(context : Context) {
         val storyContent = binding.editTextTextMultiLine.text.toString()
-        GlobalScope.launch {
-            firestoreViewModel.createStory(storyContent)
+
+        lifecycleScope.launch {
+            firestoreViewModel.createStory(storyContent,context)
         }
     }
 

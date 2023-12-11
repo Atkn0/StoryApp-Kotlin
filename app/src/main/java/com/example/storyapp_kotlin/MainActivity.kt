@@ -6,15 +6,21 @@ import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import com.example.storyapp_kotlin.NavigationHelper.NavigationHelper
 import com.example.storyapp_kotlin.ViewModels.AuthViewModel
 import com.example.storyapp_kotlin.Views.CompleteTheStory
 import com.example.storyapp_kotlin.Views.HomePageFragment
 import com.example.storyapp_kotlin.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val authViewModel : AuthViewModel by viewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,5 +46,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHost.navController
         navController.navigate(action)
     }
+
 
 }

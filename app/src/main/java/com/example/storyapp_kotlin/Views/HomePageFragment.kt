@@ -12,12 +12,15 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.example.storyapp_kotlin.Adapters.ViewPagerAdapter
+import com.example.storyapp_kotlin.NavigationHelper.NavigationHelper
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.databinding.FragmentHomePageBinding
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
-class HomePageFragment : Fragment() {
+class HomePageFragment  constructor() : Fragment() {
 
     private lateinit var binding: FragmentHomePageBinding
     private lateinit var viewPager : ViewPager2
@@ -25,6 +28,8 @@ class HomePageFragment : Fragment() {
     private lateinit var fragmentList: List<Fragment>
     private lateinit var tabLayout: TabLayout
     private var clicked : Boolean = false
+
+
 
     //Kısaltılabilir mi diye bir bak! (Load Animation fonksiyonu tanımla!)
     private val rotateOpen : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
@@ -54,9 +59,7 @@ class HomePageFragment : Fragment() {
         with(binding){
             fabButton.setOnClickListener { onAddButtonClicked() }
             fabStoryButton.setOnClickListener { addStoryButtonClicked() }
-            fabProfileButton.setOnClickListener {
-                Toast.makeText(context, "Profile Button Clicked", Toast.LENGTH_SHORT).show()
-            }
+            fabProfileButton.setOnClickListener { profileButtonClicked() }
         }
 
         setupViewPagerAndTabs()
@@ -79,15 +82,23 @@ class HomePageFragment : Fragment() {
         })
 
     }
+
+
     private fun navigateFromHomePage(action : Int){
-        //Her sayfaya yazmak yerine daha mantıklı bir çözüm bulunabilir! (Navigation Helper oluştur!)
         val navHost =
             activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
         val navController = navHost.navController
         navController.navigate(action)
+
+
     }
+
     private fun addStoryButtonClicked() {
         navigateFromHomePage(R.id.action_homePageFragment_to_createStoryFragment)
+    }
+    private fun profileButtonClicked() {
+        navigateFromHomePage(R.id.action_homePageFragment_to_profilePageFragment)
+
     }
     private fun onAddButtonClicked() {
         setVisibility(clicked)
