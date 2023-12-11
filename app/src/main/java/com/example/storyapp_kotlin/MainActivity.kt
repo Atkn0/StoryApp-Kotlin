@@ -4,11 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
-import com.example.storyapp_kotlin.ViewModels.AuthViewModel
-import com.example.storyapp_kotlin.Views.CompleteTheStory
-import com.example.storyapp_kotlin.Views.HomePageFragment
+import com.example.storyapp_kotlin.ui.login.AuthViewModel
 import com.example.storyapp_kotlin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

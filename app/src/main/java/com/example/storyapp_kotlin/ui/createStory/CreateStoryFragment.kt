@@ -1,6 +1,5 @@
-package com.example.storyapp_kotlin.Views
+package com.example.storyapp_kotlin.ui.createStory
 
-import android.os.Binder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,11 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.storyapp_kotlin.Models.StoryModel
-import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.ViewModels.FirestoreViewModel
+import com.example.storyapp_kotlin.ui.home.FirestoreViewModel
 import com.example.storyapp_kotlin.databinding.FragmentCreateStoryBinding
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 

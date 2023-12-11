@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.Views
+package com.example.storyapp_kotlin.ui.profile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.ViewModels.AuthViewModel
+import com.example.storyapp_kotlin.ui.login.AuthViewModel
 import com.example.storyapp_kotlin.databinding.FragmentProfilePageBinding
 
 

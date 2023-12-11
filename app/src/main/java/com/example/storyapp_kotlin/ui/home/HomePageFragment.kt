@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.Views
+package com.example.storyapp_kotlin.ui.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,14 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
-import android.widget.Toast
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.example.storyapp_kotlin.Adapters.ViewPagerAdapter
+import com.example.storyapp_kotlin.ui.home.adapter.ViewPagerAdapter
 import com.example.storyapp_kotlin.R
+import com.example.storyapp_kotlin.ui.finishedStories.FinishedStories
 import com.example.storyapp_kotlin.databinding.FragmentHomePageBinding
+import com.example.storyapp_kotlin.ui.completeTheStory.CompleteTheStory
+import com.example.storyapp_kotlin.utils.extensions.NavigationManager
 import com.google.android.material.tabs.TabLayout
 
 
@@ -64,6 +65,12 @@ class HomePageFragment : Fragment() {
 
     private fun addProfileButtonClicked() {
         navigateFromHomePage(R.id.action_homePageFragment_to_profilePageFragment)
+    }
+
+    fun navigateTo(){
+        val navigationManager = NavigationManager(findNavController())
+        val directions = HomePageFragmentDirections.actionHomePageFragmentToProfilePageFragment()
+        navigationManager.navigateTo(directions)
     }
 
     fun setupViewPagerAndTabs(){

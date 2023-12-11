@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.Views
+package com.example.storyapp_kotlin.ui.completeTheStory
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.storyapp_kotlin.Adapters.CompleteStoryRVAdapter
-import com.example.storyapp_kotlin.ViewModels.completeTheStoryViewModel
-import com.example.storyapp_kotlin.databinding.CompleteStoryLayoutBinding
+import com.example.storyapp_kotlin.ui.completeTheStory.adapter.CompleteStoryRVAdapter
 import com.example.storyapp_kotlin.databinding.FragmentCompleteTheStoryBinding
 
 

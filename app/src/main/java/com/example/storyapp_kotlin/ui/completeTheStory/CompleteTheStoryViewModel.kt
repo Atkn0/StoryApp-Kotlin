@@ -1,8 +1,8 @@
-package com.example.storyapp_kotlin.ViewModels
+package com.example.storyapp_kotlin.ui.completeTheStory
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.storyapp_kotlin.Models.StoryModel
+import com.example.storyapp_kotlin.models.StoryModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore

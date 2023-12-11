@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.Views
+package com.example.storyapp_kotlin.ui.signup
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.ViewModels.AuthViewModel
+import com.example.storyapp_kotlin.ui.login.AuthViewModel
 import com.example.storyapp_kotlin.databinding.FragmentSignupBinding
 
 

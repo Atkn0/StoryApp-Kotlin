@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.storyapp_kotlin.Views.loginFragment"
+        android:name="com.example.storyapp_kotlin.ui.login.loginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signupFragment"
-        android:name="com.example.storyapp_kotlin.Views.signupFragment"
+        android:name="com.example.storyapp_kotlin.ui.signup.signupFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/homePageFragment"
-        android:name="com.example.storyapp_kotlin.Views.HomePageFragment"
+        android:name="com.example.storyapp_kotlin.ui.home.HomePageFragment"
         android:label="fragment_home_page"
         tools:layout="@layout/fragment_home_page" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/createStoryFragment"
-        android:name="com.example.storyapp_kotlin.Views.createStoryFragment"
+        android:name="com.example.storyapp_kotlin.ui.createStory.createStoryFragment"
         android:label="fragment_create_story"
         tools:layout="@layout/fragment_create_story" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/profilePageFragment"
-        android:name="com.example.storyapp_kotlin.Views.profilePageFragment"
+        android:name="com.example.storyapp_kotlin.ui.profile.profilePageFragment"
         android:label="fragment_profile_page"
         tools:layout="@layout/fragment_profile_page" >
         <action

@@ -1,6 +1,4 @@
-package com.example.storyapp_kotlin.Models
-
-import java.io.Serial
+package com.example.storyapp_kotlin.models
 
 data class UserModel(
     val userId: String,

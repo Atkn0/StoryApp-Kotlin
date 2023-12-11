@@ -1,9 +1,9 @@
-package com.example.storyapp_kotlin.Adapters
+package com.example.storyapp_kotlin.ui.completeTheStory.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.storyapp_kotlin.Models.StoryModel
+import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.databinding.CompleteStoryLayoutBinding
 
 class CompleteStoryRVAdapter(var storyList : ArrayList<StoryModel>) : RecyclerView.Adapter<CompleteStoryRVAdapter.CompleteStoryViewHolder>() {

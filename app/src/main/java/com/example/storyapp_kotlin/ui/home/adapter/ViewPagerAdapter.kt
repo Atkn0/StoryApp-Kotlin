@@ -1,8 +1,8 @@
-package com.example.storyapp_kotlin.Adapters
+package com.example.storyapp_kotlin.ui.home.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.storyapp_kotlin.Views.HomePageFragment
+import com.example.storyapp_kotlin.ui.home.HomePageFragment
 
 class ViewPagerAdapter(activity : HomePageFragment, private val fragmentList : List<Fragment>) : FragmentStateAdapter(activity) {
     override fun getItemCount(): Int {
