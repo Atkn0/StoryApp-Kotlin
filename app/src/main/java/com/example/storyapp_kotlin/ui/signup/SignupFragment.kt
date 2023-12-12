@@ -10,8 +10,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.ui.login.AuthViewModel
 import com.example.storyapp_kotlin.databinding.FragmentSignupBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class signupFragment : Fragment() {
 
     private lateinit var binding: FragmentSignupBinding
@@ -46,7 +47,7 @@ class signupFragment : Fragment() {
 
     fun navigateFromRegisterPage(action:Int){
         val navHost =
-            activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+            activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHost.navController
         navController.navigate(action)
     }
