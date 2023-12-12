@@ -1,7 +1,8 @@
-package com.example.storyapp_kotlin.di
+package com.example.storyapp_kotlin
 
+import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class HiltApplication {
+class HiltApplication : Application(){
 }
