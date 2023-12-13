@@ -53,7 +53,7 @@ class FirestoreViewModel : ViewModel() {
 
         val storyModel = StoryModel(
             storyContent = storyContent,
-            contributions = listOf(userUID),
+            contributions = arrayListOf(userUID),
             numberOfReader = 0,
             numberOfLikes = 0,
             isFinished = false,

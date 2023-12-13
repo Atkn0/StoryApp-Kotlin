@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp_kotlin.ui.completeTheStory.adapter.CompleteStoryRVAdapter
 import com.example.storyapp_kotlin.databinding.FragmentCompleteTheStoryBinding
+import com.example.storyapp_kotlin.ui.storyBottomSheet.storyBottomSheetFragment
 
 
 class CompleteTheStory : Fragment() {
@@ -37,7 +38,7 @@ class CompleteTheStory : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        completeStoryRVAdapter = CompleteStoryRVAdapter(arrayListOf())
+        completeStoryRVAdapter = CompleteStoryRVAdapter(arrayListOf(), arrayListOf())
 
         completeTheStoryViewModel.storyModelLiveData.observe(viewLifecycleOwner) { storyModelList ->
             completeStoryRVAdapter.setData(storyModelList)
@@ -45,6 +46,12 @@ class CompleteTheStory : Fragment() {
 
         binding.recyclerViewCompleteTheStory.adapter = completeStoryRVAdapter
         binding.recyclerViewCompleteTheStory.layoutManager = LinearLayoutManager(requireContext())
+
+
+        completeStoryRVAdapter.onStoryClicked = { storyModel ->
+            val storyBottomSheet = storyBottomSheetFragment(storyModel)
+            storyBottomSheet.show(childFragmentManager, "storyBottomSheet")
+        }
 
     }
 

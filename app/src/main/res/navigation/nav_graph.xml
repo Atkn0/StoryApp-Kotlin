@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_homePageFragment_to_profilePageFragment"
             app:destination="@id/profilePageFragment" />
+        <action
+            android:id="@+id/action_homePageFragment_to_joinTheStoryPage"
+            app:destination="@id/joinTheStoryPage" />
     </fragment>
     <fragment
         android:id="@+id/createStoryFragment"
@@ -59,4 +62,21 @@
             android:id="@+id/action_profilePageFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/joinTheStoryPage"
+        android:name="com.example.storyapp_kotlin.ui.joinStory.JoinTheStoryPage"
+        android:label="fragment_join_the_story_page"
+        tools:layout="@layout/fragment_join_the_story_page" >
+        <action
+            android:id="@+id/action_joinTheStoryPage_to_homePageFragment"
+            app:destination="@id/homePageFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/storyBottomSheetFragment2"
+        android:name="com.example.storyapp_kotlin.ui.storyBottomSheet.storyBottomSheetFragment"
+        android:label="storyBottomSheetFragment" >
+        <action
+            android:id="@+id/action_storyBottomSheetFragment2_to_joinTheStoryPage"
+            app:destination="@id/joinTheStoryPage" />
+    </dialog>
 </navigation>

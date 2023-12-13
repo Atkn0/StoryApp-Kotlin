@@ -6,7 +6,7 @@ import java.util.UUID
 data class StoryModel(
     var storyId : String = UUID.randomUUID().toString(),
     val storyContent : String? = null,
-    val contributions : List<String>? = null,
+    val contributions : ArrayList<String>? = null,
     val createdDate : Timestamp? = null,
     val numberOfReader : Int? = null,
     val numberOfLikes : Int? = null,

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.storyapp_kotlin.ui.home.adapter.ViewPagerAdapter
@@ -16,6 +18,7 @@ import com.example.storyapp_kotlin.di.NavigationManager.NavigationManager
 import com.example.storyapp_kotlin.ui.completeTheStory.CompleteTheStory
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,6 +30,9 @@ class HomePageFragment : Fragment() {
     private lateinit var fragmentList: List<Fragment>
     private lateinit var tabLayout: TabLayout
     private var clicked : Boolean = false
+
+
+    private val homePageViewModel: HomePageViewModel by viewModels()
 
     @Inject
     lateinit var navigationManager: NavigationManager
@@ -50,7 +56,16 @@ class HomePageFragment : Fragment() {
         initializeViewPager()
         initializeTabLayout()
 
+        lifecycleScope.launch {
+            getAllUsers()
+        }
+
+
         return binding.root
+    }
+
+    private suspend fun getAllUsers() {
+        homePageViewModel.getAllUsers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -6,14 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.storyapp_kotlin.ui.login.AuthViewModel
 import com.example.storyapp_kotlin.databinding.FragmentProfilePageBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class profilePageFragment : Fragment() {
 
     private lateinit var binding: FragmentProfilePageBinding
-    private val authViewModel : AuthViewModel by viewModels()
+
+    private val profilePageViewModel : ProfilePageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +30,10 @@ class profilePageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfilePageBinding.inflate(inflater, container, false)
+
+        lifecycleScope.launch {
+            println(profilePageViewModel.getAllUsers())
+        }
 
         return binding.root
     }
