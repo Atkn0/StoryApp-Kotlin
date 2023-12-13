@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.Models
+package com.example.storyapp_kotlin.models
 
 import com.google.firebase.Timestamp
 import java.util.UUID

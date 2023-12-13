@@ -3,6 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id("com.google.gms.google-services")
     id 'androidx.navigation.safeargs'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -35,6 +37,9 @@ android {
     viewBinding {
         enabled = true
     }
+    kapt {
+        correctErrorTypes true
+    }
 
     sourceSets {
         main {
@@ -49,10 +54,16 @@ dependencies {
     def nav_version = "2.7.5"
 
 
-    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.7.5"
+    implementation 'androidx.fragment:fragment-ktx:1.6.2'
+    implementation "androidx.activity:activity-ktx:1.8.1"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.core:core-splashscreen:1.0.1"
     implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    //dagger-hilt
+    implementation "com.google.dagger:hilt-android:2.49"
+    kapt "com.google.dagger:hilt-compiler:2.49"
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.6.0"))

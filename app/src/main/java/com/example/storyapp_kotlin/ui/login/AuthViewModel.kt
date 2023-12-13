@@ -1,7 +1,7 @@
-package com.example.storyapp_kotlin.ViewModels
+package com.example.storyapp_kotlin.ui.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.storyapp_kotlin.Models.UserModel
+import com.example.storyapp_kotlin.models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -23,6 +23,12 @@ class AuthViewModel : ViewModel(){
                     println("Login Failed")
                 }
             }
+    }
+
+    fun userSignOut(){
+        auth = Firebase.auth
+        auth.signOut()
+        updateUserSignInStatus()
     }
 
     fun createUser(email : String, password : String){

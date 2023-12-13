@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.Views
+package com.example.storyapp_kotlin.ui.finishedStories
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

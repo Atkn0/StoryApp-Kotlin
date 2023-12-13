@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.Views
+package com.example.storyapp_kotlin.ui.login
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,14 +8,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.ViewModels.AuthViewModel
 import com.example.storyapp_kotlin.databinding.FragmentLoginBinding
+import com.example.storyapp_kotlin.di.NavigationManager.NavigationManager
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
-class loginFragment : Fragment() {
+@AndroidEntryPoint
+class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val authViewModel : AuthViewModel by viewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +56,11 @@ class loginFragment : Fragment() {
     }
 
 
+
+
     fun navigateFromLoginPage(action : Int){
         val navHost =
-            activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
+            activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHost.navController
         navController.navigate(action)
     }
