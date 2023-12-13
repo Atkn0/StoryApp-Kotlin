@@ -25,7 +25,7 @@ class completeTheStoryViewModel : ViewModel() {
             for (document in documents){
                 val storyModel = StoryModel(
                     storyContent = document.getString("storyContent")!!,
-                    contributions = document.get("contributions") as List<String>,
+                    contributions = document.get("contributions") as ArrayList<String>,
                     numberOfReader = document.getLong("numberOfReader")!!.toInt(),
                     numberOfLikes = document.getLong("numberOfLikes")!!.toInt(),
                     isFinished = document.get("finished") as Boolean?,
