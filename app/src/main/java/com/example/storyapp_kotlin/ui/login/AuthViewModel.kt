@@ -5,16 +5,22 @@ import com.example.storyapp_kotlin.models.UserModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class AuthViewModel : ViewModel(){
+@HiltViewModel
+class AuthViewModel @Inject constructor(
+    private val firestore : FirebaseFirestore,
+    private var auth : FirebaseAuth
+): ViewModel(){
 
-    private lateinit var auth : FirebaseAuth
+
     var isUserSignedIn = MutableLiveData<Boolean>(false)
-    val db = Firebase.firestore
+
 
     fun userLogin(email : String, password : String){
-        auth = Firebase.auth
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -26,13 +32,11 @@ class AuthViewModel : ViewModel(){
     }
 
     fun userSignOut(){
-        auth = Firebase.auth
         auth.signOut()
         updateUserSignInStatus()
     }
 
     fun createUser(email : String, password : String){
-        auth = Firebase.auth
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -50,7 +54,6 @@ class AuthViewModel : ViewModel(){
     }
 
     fun checkUserSıgnStatus() : Boolean{
-        auth = Firebase.auth
         return auth.currentUser != null
     }
 
@@ -59,7 +62,7 @@ class AuthViewModel : ViewModel(){
         //checks that if the value return null for auth.currentUser
         val uniqeUserId = user.userId
 
-        db.collection("Users").document(uniqeUserId.toString()).set(user)
+        firestore.collection("Users").document(uniqeUserId.toString()).set(user)
             .addOnSuccessListener {
                 println("User Added")
             }

@@ -28,8 +28,6 @@ class CompleteStoryRVAdapter(private var storyList : ArrayList<StoryModel>,priva
 
         with(holder.binding){
             completeStoryContent.text = storyList[position].storyContent
-            completeStoryNumberOfLikes.text = storyList[position].numberOfLikes.toString()
-            completeStoryNumberOfReaders.text = storyList[position].numberOfReader.toString()
 
             // Contributions Recycler View
             contrubutorsRecyclerView.adapter = ContributionsRVAdapter(storyList)

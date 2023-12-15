@@ -18,7 +18,7 @@ class ContributionsRVAdapter(val storyList : ArrayList<StoryModel>) : RecyclerVi
     }
 
     override fun getItemCount(): Int {
-        return storyList.size
+        return 6
     }
 
     override fun onBindViewHolder(holder: ContributionsViewHolder, position: Int) {
