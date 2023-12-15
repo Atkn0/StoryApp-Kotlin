@@ -14,7 +14,6 @@ class HomePageViewModel @Inject constructor(private val getAllUsersUseCase: GetA
 
     var usersList : MutableLiveData<ArrayList<UserModel>?> = MutableLiveData()
 
-
     suspend fun getAllUsers(){
         viewModelScope.launch {
             usersList.value = getAllUsersUseCase()

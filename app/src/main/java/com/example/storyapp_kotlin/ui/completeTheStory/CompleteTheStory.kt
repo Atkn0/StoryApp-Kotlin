@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.storyapp_kotlin.ui.completeTheStory.adapter.CompleteStoryRVAdapter
 import com.example.storyapp_kotlin.databinding.FragmentCompleteTheStoryBinding
 import com.example.storyapp_kotlin.ui.storyBottomSheet.storyBottomSheetFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class CompleteTheStory : Fragment() {
 
     private lateinit var binding: FragmentCompleteTheStoryBinding
@@ -29,30 +30,31 @@ class CompleteTheStory : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCompleteTheStoryBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        completeStoryRVAdapter = CompleteStoryRVAdapter(arrayListOf(), arrayListOf())
+        initializeAdapter()
 
         completeTheStoryViewModel.storyModelLiveData.observe(viewLifecycleOwner) { storyModelList ->
-            completeStoryRVAdapter.setData(storyModelList)
+            if (storyModelList != null) {
+                completeStoryRVAdapter.setData(storyModelList)
+            }
         }
-
-        binding.recyclerViewCompleteTheStory.adapter = completeStoryRVAdapter
-        binding.recyclerViewCompleteTheStory.layoutManager = LinearLayoutManager(requireContext())
-
 
         completeStoryRVAdapter.onStoryClicked = { storyModel ->
             val storyBottomSheet = storyBottomSheetFragment(storyModel)
             storyBottomSheet.show(childFragmentManager, "storyBottomSheet")
         }
 
+    }
+
+    fun initializeAdapter(){
+        completeStoryRVAdapter = CompleteStoryRVAdapter(arrayListOf(), arrayListOf())
+        binding.recyclerViewCompleteTheStory.adapter = completeStoryRVAdapter
+        binding.recyclerViewCompleteTheStory.layoutManager = LinearLayoutManager(requireContext())
     }
 
 }

@@ -9,14 +9,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.storyapp_kotlin.ui.home.FirestoreViewModel
 import com.example.storyapp_kotlin.databinding.FragmentCreateStoryBinding
+import com.example.storyapp_kotlin.ui.completeTheStory.completeTheStoryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class createStoryFragment : Fragment() {
 
     private lateinit var binding: FragmentCreateStoryBinding
-    private val firestoreViewModel : FirestoreViewModel by viewModels()
-
+    private val createStoryViewModel : createStoryViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,7 +43,7 @@ class createStoryFragment : Fragment() {
     private fun createStory() {
         val storyContent = binding.editTextTextMultiLine.text.toString()
         lifecycleScope.launch {
-            firestoreViewModel.createStory(storyContent)
+            createStoryViewModel.createStory(storyContent)
         }
     }
 
