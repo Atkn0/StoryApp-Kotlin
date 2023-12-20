@@ -9,17 +9,4 @@ import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
-class FirestoreViewModel : ViewModel() {
-    //try this implementation with dagger hilt!
-    val db = Firebase.firestore
-    val auth = Firebase.auth
-
-    val completeTheStory_ref = db.collection("completeTheStory")
-    val users_ref = db.collection("Users")
-
-
-
-
-
-
-}
+class FirestoreViewModel : ViewModel() {}

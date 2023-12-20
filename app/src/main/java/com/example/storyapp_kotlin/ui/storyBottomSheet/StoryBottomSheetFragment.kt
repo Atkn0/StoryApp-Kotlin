@@ -32,7 +32,7 @@ class storyBottomSheetFragment(val storyModel: StoryModel) : BottomSheetDialogFr
 
         with(binding){
             joinTheStoryButton.setOnClickListener {
-                val direction = HomePageFragmentDirections.actionHomePageFragmentToJoinTheStoryPage()
+                val direction = HomePageFragmentDirections.actionHomePageFragmentToJoinTheStoryPage(storyModel)
                 navigationManager.navigateTo(direction)
                 dismiss()
             }

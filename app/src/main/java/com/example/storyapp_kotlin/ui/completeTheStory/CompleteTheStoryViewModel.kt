@@ -22,20 +22,13 @@ class completeTheStoryViewModel @Inject constructor(
     private val auth : FirebaseAuth
 ): ViewModel() {
 
-
-
     private val completeTheStory_ref = firestore.collection("completeTheStory")
     //private val users_ref = db.collection("Users")
 
     val storyModelLiveData = MutableLiveData<ArrayList<StoryModel>?>()
-
-
     fun getAllCompleteStories(){
-
         viewModelScope.launch {
             storyModelLiveData.value = getCompleteStoriesUseCase()
         }
-
-
     }
 }

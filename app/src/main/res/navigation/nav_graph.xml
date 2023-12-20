@@ -42,7 +42,13 @@
             app:destination="@id/profilePageFragment" />
         <action
             android:id="@+id/action_homePageFragment_to_joinTheStoryPage"
-            app:destination="@id/joinTheStoryPage" />
+            app:destination="@id/joinTheStoryPage" >
+            <argument
+                android:name="currentStory"
+                app:argType="com.example.storyapp_kotlin.models.StoryModel" />
+        </action>
+
+
     </fragment>
     <fragment
         android:id="@+id/createStoryFragment"
@@ -75,6 +81,7 @@
         android:id="@+id/storyBottomSheetFragment2"
         android:name="com.example.storyapp_kotlin.ui.storyBottomSheet.storyBottomSheetFragment"
         android:label="storyBottomSheetFragment" >
+
         <action
             android:id="@+id/action_storyBottomSheetFragment2_to_joinTheStoryPage"
             app:destination="@id/joinTheStoryPage" />

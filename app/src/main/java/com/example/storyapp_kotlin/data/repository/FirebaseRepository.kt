@@ -3,7 +3,9 @@ package com.example.storyapp_kotlin.data.repository
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
@@ -67,7 +69,7 @@ class FirebaseRepository @Inject constructor(){
             null
         }
     }
-    suspend fun addCreatedStoryFirestore(storyContent: String, userUID: String) : Boolean {
+    fun addCreatedStoryFirestore(storyContent: String, userUID: String) : Boolean {
 
         val storyModel = StoryModel(
             storyContent = storyContent,
