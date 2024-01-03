@@ -48,7 +48,7 @@ class FirebaseRepository @Inject constructor(){
         for (document in completeTheStoryCollection){
             val storyModel = StoryModel(
                 storyId = document.get("storyId").toString(),
-                storyContent = document.getString("storyContent")!!,
+                storyContent = document.get("storyContent") as HashMap<String,String>,
                 contributions = document.get("contributions") as ArrayList<String>,
                 numberOfReader = document.getLong("numberOfReader")!!.toInt(),
                 numberOfLikes = document.getLong("numberOfLikes")!!.toInt(),
@@ -68,7 +68,7 @@ class FirebaseRepository @Inject constructor(){
             val documentSnapshotData = documentSnapshot.data
             StoryModel(
                 storyId = documentSnapshotData?.get("storyId").toString(),
-                storyContent = documentSnapshotData?.get("storyContent").toString(),
+                storyContent = documentSnapshotData?.get("storyContent") as HashMap<String,String>,
                 contributions = documentSnapshotData?.get("contributions") as ArrayList<String>,
                 numberOfReader = (documentSnapshotData.get("numberOfReader") as Long).toInt(),
                 numberOfLikes = (documentSnapshotData.get("numberOfLikes") as Long).toInt(),
@@ -101,13 +101,12 @@ class FirebaseRepository @Inject constructor(){
 
         contributions?.add(userUID)
 
-        val currentStoryContent = storyModel.storyContent
-        val updatedStoryContent = "$currentStoryContent $newStoryContent"
+        val updatedStoryHashMap = updateStoryContent(storyModel,userUID,newStoryContent)
 
         // Belirli alanlarda güncelleme yapmak için bir `HashMap` oluştur
         val updates = hashMapOf(
             "contributions" to contributions as Any,
-            "storyContent" to updatedStoryContent as Any
+            "storyContent" to updatedStoryHashMap as Any
         )
 
 
@@ -123,6 +122,15 @@ class FirebaseRepository @Inject constructor(){
             println(e.localizedMessage)
             false
         }
+    }
+
+    fun updateStoryContent(storyModel : StoryModel,userID : String, newStoryContent :String) : HashMap<String,String>{
+        val currentStoryContent = storyModel.storyContent
+
+        currentStoryContent?.put(userID,newStoryContent)
+
+
+        return currentStoryContent!!
     }
     suspend fun getUserByID(userID : String) : UserModel?{
         return try {
@@ -142,10 +150,14 @@ class FirebaseRepository @Inject constructor(){
     fun addCreatedStoryFirestore(storyContent: String, userUID: String) : Boolean {
 
         val storyID = UUID.randomUUID().toString()
+        val storyContentMap = hashMapOf(
+            userUID to storyContent
+        )
+
 
         val storyModel = StoryModel(
             storyId = storyID,
-            storyContent = storyContent,
+            storyContent = storyContentMap,
             contributions = arrayListOf(userUID),
             numberOfReader = 0,
             numberOfLikes = 0,

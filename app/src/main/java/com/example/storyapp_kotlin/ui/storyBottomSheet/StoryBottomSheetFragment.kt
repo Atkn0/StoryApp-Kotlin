@@ -41,7 +41,7 @@ class storyBottomSheetFragment(val storyModel: StoryModel) : BottomSheetDialogFr
     private fun initializeUI(){
         binding.numberOfLikesTextView .text = storyModel.numberOfLikes.toString()
         binding.numberOfReadsTextView.text = storyModel.numberOfReader.toString()
-        binding.storyBottomSheetStoryContent.text = storyModel.storyContent
+        binding.storyBottomSheetStoryContent.text = storyModel.storyContent?.get("storyContent")
     }
     private fun buttonClickedListener(){
         println("ButtonClickedListener story id : ${storyModel.storyId}")

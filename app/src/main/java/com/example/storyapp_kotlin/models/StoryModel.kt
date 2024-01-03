@@ -9,7 +9,7 @@ import java.util.UUID
 @Parcelize
 data class StoryModel(
     var storyId : String? = null,
-    val storyContent : String? = null,
+    val storyContent : HashMap<String,String>? = null,
     val contributions : ArrayList<String>? = null,
     val createdDate : Timestamp? = null,
     val numberOfReader : Int? = null,
