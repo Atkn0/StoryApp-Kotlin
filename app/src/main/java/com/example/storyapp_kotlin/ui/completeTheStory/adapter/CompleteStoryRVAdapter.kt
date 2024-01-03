@@ -27,7 +27,11 @@ class CompleteStoryRVAdapter(private var storyList : ArrayList<StoryModel>,priva
     override fun onBindViewHolder(holder: CompleteStoryViewHolder, position: Int) {
 
         with(holder.binding){
-            completeStoryContent.text = storyList[position].storyContent
+            val currentStoryModel = storyList[position]
+            val firstStoryContent = currentStoryModel.contributions?.get(0)
+            val storyContent = storyList[position].storyContent?.get(firstStoryContent)
+            completeStoryContent.text = storyContent
+
 
             // Contributions Recycler View
             contrubutorsRecyclerView.adapter = ContributionsRVAdapter(storyList)
