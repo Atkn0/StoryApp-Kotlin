@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.storyapp_kotlin.ui.home.FirestoreViewModel
 import com.example.storyapp_kotlin.databinding.FragmentCreateStoryBinding
-import com.example.storyapp_kotlin.ui.completeTheStory.completeTheStoryViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

@@ -2,11 +2,8 @@ package com.example.storyapp_kotlin.ui.login
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.storyapp_kotlin.models.UserModel
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -53,7 +50,7 @@ class AuthViewModel @Inject constructor(
         isUserSignedIn.value = auth.currentUser != null
     }
 
-    fun checkUserSıgnStatus() : Boolean{
+    fun checkUserSignStatus() : Boolean{
         return auth.currentUser != null
     }
 

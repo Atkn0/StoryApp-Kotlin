@@ -8,7 +8,7 @@ import java.util.UUID
 
 @Parcelize
 data class StoryModel(
-    var storyId : String = UUID.randomUUID().toString(),
+    var storyId : String? = null,
     val storyContent : String? = null,
     val contributions : ArrayList<String>? = null,
     val createdDate : Timestamp? = null,

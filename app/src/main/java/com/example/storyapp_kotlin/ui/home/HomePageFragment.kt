@@ -140,7 +140,6 @@ class HomePageFragment : Fragment() {
         }
     }
     fun initializeViewPager(){
-
         fragmentList = arrayListOf<Fragment>(CompleteTheStory(), FinishedStories())
         viewPager = binding.viewPager
         viewPagerAdapter = ViewPagerAdapter(this, fragmentList)

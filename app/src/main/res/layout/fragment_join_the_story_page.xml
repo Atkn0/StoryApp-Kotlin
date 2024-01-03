@@ -1,31 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.joinStory.JoinTheStoryPage">
+    android:layout_height="match_parent">
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text_input_layout">
+        android:padding="15dp">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <!-- Story Content CardView -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/storyContentCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/storyContentTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/storyContent"
+                android:textSize="20sp"
+                android:padding="20dp"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Write Your Story EditText -->
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userJoinStoryEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="270dp"
+            android:inputType="textMultiLine"
+            android:padding="16dp"
+            android:textSize="20sp"
+            android:gravity="top"
             android:hint="Write your story here"
+            android:layout_below="@id/storyContentCardView"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
 
-            android:id="@+id/text_edit_text"
-            tools:ignore="HardcodedText">
+        <!-- Join The Story Button -->
+        <Button
+            android:id="@+id/joinStoryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Join The Story"
+            android:layout_below="@+id/userJoinStoryEditText"
+            android:layout_marginBottom="30dp"/>
 
-        </com.google.android.material.textfield.TextInputEditText>
+    </RelativeLayout>
 
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,27 +1,27 @@
 package com.example.storyapp_kotlin.ui.joinStory
 
 import android.os.Bundle
-import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavArgs
-import androidx.navigation.fragment.navArgs
-import com.example.storyapp_kotlin.R
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.example.storyapp_kotlin.databinding.FragmentJoinTheStoryPageBinding
 import com.example.storyapp_kotlin.models.StoryModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class JoinTheStoryPage : Fragment() {
 
     private lateinit var binding : FragmentJoinTheStoryPageBinding
     private lateinit var currentStoryModel : StoryModel
+    private val joinViewModel : joinTheStoryPageViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             currentStoryModel = (it.getParcelable("currentStory") as StoryModel?)!!
-            println("joinStoryPage currentStoryModel : $currentStoryModel")
         }
     }
 
@@ -31,10 +31,29 @@ class JoinTheStoryPage : Fragment() {
     ): View {
         binding = FragmentJoinTheStoryPageBinding.inflate(inflater,container,false)
 
-        binding.textEditText.setText(currentStoryModel.storyContent)
-        //binding.textEditText.text = currentStoryModel.storyContent as Editable?
+        joinStoryButtonClicked()
+
         return binding.root
     }
 
+    private fun joinStoryButtonClicked(){
 
+        binding.joinStoryButton.setOnClickListener {
+            val newStoryContent = binding.userJoinStoryEditText.text.toString()
+            joinViewModel.joinTheStory(currentStoryModel.storyId!!,newStoryContent)
+
+            joinViewModel.isJoinStorySuccess.observe(viewLifecycleOwner) { isSuccess ->
+                if (isSuccess) {
+                    showToast("Story is joined")
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
+                } else {
+                    showToast("Story is not joined")
+                }
+            }
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
 }

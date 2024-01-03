@@ -17,8 +17,6 @@ class HomePageViewModel @Inject constructor(private val getAllUsersUseCase: GetA
     suspend fun getAllUsers(){
         viewModelScope.launch {
             usersList.value = getAllUsersUseCase()
-            println(usersList.value)
         }
     }
-
 }

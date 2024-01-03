@@ -14,6 +14,8 @@
         android:layout_height="wrap_content"
         android:text="Story Content first story content test"
         android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="50dp"
