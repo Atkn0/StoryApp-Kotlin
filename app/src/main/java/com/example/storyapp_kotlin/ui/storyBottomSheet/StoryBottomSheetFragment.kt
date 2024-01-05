@@ -52,7 +52,9 @@ class storyBottomSheetFragment(val storyModel: StoryModel) : BottomSheetDialogFr
         }
 
         binding.readTheStoryButton.setOnClickListener {
-            println("read the story button clicked")
+            val direction = HomePageFragmentDirections.actionHomePageFragmentToReadTheStoryFragment(storyModel)
+            navigationManager.navigateTo(direction)
+            dismiss()
         }
 
     }

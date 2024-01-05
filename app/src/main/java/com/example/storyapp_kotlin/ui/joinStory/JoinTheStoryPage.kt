@@ -53,6 +53,8 @@ class JoinTheStoryPage : Fragment() {
         }
     }
 
+
+    //birden fazla fragment için kullandığın durumlar var. Bunu dışarı çıkarabilirsin.
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
