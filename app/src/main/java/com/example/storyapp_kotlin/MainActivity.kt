@@ -1,16 +1,16 @@
 package com.example.storyapp_kotlin
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
 import com.example.storyapp_kotlin.ui.login.AuthViewModel
 import com.example.storyapp_kotlin.databinding.ActivityMainBinding
-import com.example.storyapp_kotlin.di.NavigationManager.NavigationManager
-import com.example.storyapp_kotlin.ui.login.LoginFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -25,8 +25,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val splashScreen = installSplashScreen()
 
-        //checks user sign status
-        var userStatusCheck = authViewModel.checkUserSıgnStatus()
+        //checks user sign status beginning of the app
+        var userStatusCheck = authViewModel.checkUserSignStatus()
         if (userStatusCheck){
             navigateFunc(R.id.action_loginFragment_to_homePageFragment)
             userStatusCheck = !userStatusCheck
@@ -34,8 +34,19 @@ class MainActivity : AppCompatActivity() {
 
         splashScreen.setKeepOnScreenCondition { userStatusCheck }
 
+        authViewModel.isUserSignedIn.observe(this) {
+            if (it) {
+                navigateFunc(R.id.action_loginFragment_to_homePageFragment)
+            }else{
+                println("Kullanıcı çıkış yaptı!")
+            }
+        }
+
         setContentView(binding.root)
     }
+
+
+
 
 
     fun navigateFunc(action : Int){

@@ -1,12 +1,16 @@
 package com.example.storyapp_kotlin.data.repository
 
+import androidx.lifecycle.MutableLiveData
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
+import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,6 +21,8 @@ class FirebaseRepository @Inject constructor(){
     private val db = Firebase.firestore
     private val auth = Firebase.auth
     private val completeTheStory_ref = db.collection("completeTheStory")
+
+    var isJoinStorySuccess = MutableLiveData<Boolean>()
 
 
 
@@ -41,7 +47,8 @@ class FirebaseRepository @Inject constructor(){
         val completeTheStoryList = arrayListOf<StoryModel>()
         for (document in completeTheStoryCollection){
             val storyModel = StoryModel(
-                storyContent = document.getString("storyContent")!!,
+                storyId = document.get("storyId").toString(),
+                storyContent = document.get("storyContent") as HashMap<String,String>,
                 contributions = document.get("contributions") as ArrayList<String>,
                 numberOfReader = document.getLong("numberOfReader")!!.toInt(),
                 numberOfLikes = document.getLong("numberOfLikes")!!.toInt(),
@@ -51,6 +58,79 @@ class FirebaseRepository @Inject constructor(){
             completeTheStoryList.add(storyModel)
         }
         return completeTheStoryList
+    }
+
+    // getCompleteStories fonksiyonu ile tekrarlanıyor gibi sadece bir yer değişik.
+    // Daha güzel yazılabilir mi diye tekrardan bak
+    suspend fun getCompleteStoryByID(storyID : String) : StoryModel?{
+        return try {
+            val documentSnapshot = db.collection("completeTheStory").document(storyID).get().await()
+            val documentSnapshotData = documentSnapshot.data
+            StoryModel(
+                storyId = documentSnapshotData?.get("storyId").toString(),
+                storyContent = documentSnapshotData?.get("storyContent") as HashMap<String,String>,
+                contributions = documentSnapshotData?.get("contributions") as ArrayList<String>,
+                numberOfReader = (documentSnapshotData.get("numberOfReader") as Long).toInt(),
+                numberOfLikes = (documentSnapshotData.get("numberOfLikes") as Long).toInt(),
+                isFinished = documentSnapshotData.get("finished") as Boolean,
+                createdDate = documentSnapshotData.get("createdDate") as Timestamp
+            )
+        }
+        catch (e : Exception){
+            println("Error in getCompleteStoryByID function")
+            println(e.localizedMessage)
+            null
+        }
+    }
+    suspend fun joinTheCurrentStory(storyModel: StoryModel, newStoryContent: String) : Boolean{
+        val storyID = storyModel.storyId
+        val userUID = auth.currentUser?.uid
+
+        if (userUID == null) {
+            println("Kullanıcı kimliği bulunamadı.")
+            return false
+        }
+
+        val contributions = storyModel.contributions
+
+        // Eğer kullanıcı zaten katılmışsa, mesajı yazdır ve fonksiyondan çık
+        if (contributions?.contains(userUID) == true) {
+            println("Zaten bu hikayeye katıldınız.")
+            return false
+        }
+
+        contributions?.add(userUID)
+
+        val updatedStoryHashMap = updateStoryContent(storyModel,userUID,newStoryContent)
+
+        // Belirli alanlarda güncelleme yapmak için bir `HashMap` oluştur
+        val updates = hashMapOf(
+            "contributions" to contributions as Any,
+            "storyContent" to updatedStoryHashMap as Any
+        )
+
+
+        return try {
+            completeTheStory_ref
+                .document(storyID!!)
+                .update(updates)
+                .await()
+            true
+
+        } catch (e : Exception){
+            println("Error in joinTheCurrentStory function")
+            println(e.localizedMessage)
+            false
+        }
+    }
+
+    fun updateStoryContent(storyModel : StoryModel,userID : String, newStoryContent :String) : HashMap<String,String>{
+        val currentStoryContent = storyModel.storyContent
+
+        currentStoryContent?.put(userID,newStoryContent)
+
+
+        return currentStoryContent!!
     }
     suspend fun getUserByID(userID : String) : UserModel?{
         return try {
@@ -67,10 +147,17 @@ class FirebaseRepository @Inject constructor(){
             null
         }
     }
-    suspend fun addCreatedStoryFirestore(storyContent: String, userUID: String) : Boolean {
+    fun addCreatedStoryFirestore(storyContent: String, userUID: String) : Boolean {
+
+        val storyID = UUID.randomUUID().toString()
+        val storyContentMap = hashMapOf(
+            userUID to storyContent
+        )
+
 
         val storyModel = StoryModel(
-            storyContent = storyContent,
+            storyId = storyID,
+            storyContent = storyContentMap,
             contributions = arrayListOf(userUID),
             numberOfReader = 0,
             numberOfLikes = 0,
@@ -78,7 +165,6 @@ class FirebaseRepository @Inject constructor(){
             createdDate = Timestamp.now()
         )
 
-        val storyID = storyModel.storyId
         var isSuccess : Boolean = false
 
         completeTheStory_ref
@@ -93,5 +179,8 @@ class FirebaseRepository @Inject constructor(){
 
         return isSuccess
     }
+
+
+
 
 }

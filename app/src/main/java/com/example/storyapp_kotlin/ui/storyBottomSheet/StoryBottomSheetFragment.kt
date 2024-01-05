@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import com.example.storyapp_kotlin.databinding.StoryBottomSheetFragmentBinding
 import com.example.storyapp_kotlin.di.NavigationManager.NavigationManager
 import com.example.storyapp_kotlin.models.StoryModel
-import com.example.storyapp_kotlin.ui.home.HomePageFragment
 import com.example.storyapp_kotlin.ui.home.HomePageFragmentDirections
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,18 +26,38 @@ class storyBottomSheetFragment(val storyModel: StoryModel) : BottomSheetDialogFr
     ): View {
         binding = StoryBottomSheetFragmentBinding.inflate(inflater,container,false)
 
-
-        println("Story Model : $storyModel")
-
-        with(binding){
-            joinTheStoryButton.setOnClickListener {
-                val direction = HomePageFragmentDirections.actionHomePageFragmentToJoinTheStoryPage()
-                navigationManager.navigateTo(direction)
-                dismiss()
-            }
-        }
+        initializeUI()
+        buttonClickedListener()
 
 
         return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
+
+    private fun initializeUI(){
+        binding.numberOfLikesTextView .text = storyModel.numberOfLikes.toString()
+        binding.numberOfReadsTextView.text = storyModel.numberOfReader.toString()
+        binding.storyBottomSheetStoryContent.text = storyModel.storyContent?.get("storyContent")
+    }
+    private fun buttonClickedListener(){
+        println("ButtonClickedListener story id : ${storyModel.storyId}")
+        binding.joinTheStoryButton.setOnClickListener {
+            val direction = HomePageFragmentDirections.actionHomePageFragmentToJoinTheStoryPage(storyModel)
+            navigationManager.navigateTo(direction)
+            dismiss()
+        }
+
+        binding.readTheStoryButton.setOnClickListener {
+            val direction = HomePageFragmentDirections.actionHomePageFragmentToReadTheStoryFragment(storyModel)
+            navigationManager.navigateTo(direction)
+            dismiss()
+        }
+
+    }
+
+
 }

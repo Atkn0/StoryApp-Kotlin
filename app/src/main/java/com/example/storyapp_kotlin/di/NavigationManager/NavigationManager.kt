@@ -6,10 +6,7 @@ import dagger.Provides
 import javax.inject.Inject
 
 class NavigationManager @Inject constructor(private val navController: NavController) {
-
-
     fun navigateTo(directions: NavDirections) {
         navController.navigate(directions)
     }
-
 }

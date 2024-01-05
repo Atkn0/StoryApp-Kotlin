@@ -19,6 +19,7 @@ class profilePageFragment : Fragment() {
     private lateinit var binding: FragmentProfilePageBinding
 
     private val profilePageViewModel : ProfilePageViewModel by viewModels()
+    private val authViewModel : AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +29,12 @@ class profilePageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentProfilePageBinding.inflate(inflater, container, false)
 
-        lifecycleScope.launch {
-            println(profilePageViewModel.getAllUsers())
-        }
+
+
+
 
         return binding.root
     }
@@ -41,7 +42,15 @@ class profilePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.signOutButton.setOnClickListener {
+            lifecycleScope.launch {
+                println("Çıkış yapılıyor...")
+                authViewModel.userSignOut()
+            }
+        }
 
     }
+
+
+
 }

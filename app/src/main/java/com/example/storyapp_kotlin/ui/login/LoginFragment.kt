@@ -58,7 +58,7 @@ class LoginFragment : Fragment() {
 
 
 
-    fun navigateFromLoginPage(action : Int){
+    fun navigateFromLoginPage(action : Int){3
         val navHost =
             activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHost.navController

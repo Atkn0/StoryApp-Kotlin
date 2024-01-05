@@ -8,8 +8,6 @@ import javax.inject.Singleton
 
 @Singleton
 class GetUserByIdUseCase @Inject constructor(private val firebaseRepository: FirebaseRepository){
-
-
     suspend operator fun invoke(userID: String) : UserModel? {
         return firebaseRepository.getUserByID(userID)
     }

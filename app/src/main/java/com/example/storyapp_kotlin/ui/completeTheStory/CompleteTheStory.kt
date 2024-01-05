@@ -37,18 +37,24 @@ class CompleteTheStory : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initializeAdapter()
+        observers()
+        clickedListeners()
 
+    }
+
+    private fun observers(){
         completeTheStoryViewModel.storyModelLiveData.observe(viewLifecycleOwner) { storyModelList ->
             if (storyModelList != null) {
                 completeStoryRVAdapter.setData(storyModelList)
             }
         }
+    }
 
+    private fun clickedListeners(){
         completeStoryRVAdapter.onStoryClicked = { storyModel ->
             val storyBottomSheet = storyBottomSheetFragment(storyModel)
             storyBottomSheet.show(childFragmentManager, "storyBottomSheet")
         }
-
     }
 
     fun initializeAdapter(){

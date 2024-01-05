@@ -105,17 +105,6 @@ class HomePageFragment : Fragment() {
         })
 
     }
-
-    /*
-    private fun navigateFromHomePage(action : Int){
-        //Her sayfaya yazmak yerine daha mantıklı bir çözüm bulunabilir! (Navigation Helper oluştur!)
-        val navHost =
-            activity?.supportFragmentManager?.findFragmentById(R.id.fragmentContainerView2) as NavHostFragment
-        val navController = navHost.navController
-        navController.navigate(action)
-    }
-
-     */
     private fun addStoryButtonClicked() {
         val directions = HomePageFragmentDirections.actionHomePageFragmentToCreateStoryFragment()
         navigationManager.navigateTo(directions)
@@ -151,7 +140,6 @@ class HomePageFragment : Fragment() {
         }
     }
     fun initializeViewPager(){
-
         fragmentList = arrayListOf<Fragment>(CompleteTheStory(), FinishedStories())
         viewPager = binding.viewPager
         viewPagerAdapter = ViewPagerAdapter(this, fragmentList)
