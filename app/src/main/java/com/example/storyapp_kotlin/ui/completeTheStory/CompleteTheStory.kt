@@ -21,6 +21,7 @@ class CompleteTheStory : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        println("CompleteTheStory: Yeniden Firebase'den veri çekiliyor")
         completeTheStoryViewModel.getAllCompleteStories()
 
     }

@@ -54,6 +54,9 @@
                 android:name="currentStory"
                 app:argType="com.example.storyapp_kotlin.models.StoryModel" />
         </action>
+        <action
+            android:id="@+id/action_homePageFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
 
 
     </fragment>
@@ -98,4 +101,9 @@
         android:name="com.example.storyapp_kotlin.ui.read_the_story.readTheStoryFragment"
         android:label="fragment_read_the_story"
         tools:layout="@layout/fragment_read_the_story" />
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.example.storyapp_kotlin.ui.library.LibraryFragment"
+        android:label="fragment_library"
+        tools:layout="@layout/fragment_library" />
 </navigation>

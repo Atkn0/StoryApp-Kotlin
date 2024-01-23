@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/common_rv_item"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_marginEnd="7dp"
+    android:background="@color/home_bg"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/bookCoverImageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/book_cover"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    </ImageView>
+    <TextView
+        android:layout_marginTop="8dp"
+        android:id="@+id/storyTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bookCoverImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="The good guy"
+        android:textColor="@color/figma_white"
+        android:fontFamily="@font/gotham_medium"
+        android:textSize="12sp"
+        tools:ignore="HardcodedText">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/storyCreatorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/storyTitleTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/figma_white"
+        android:fontFamily="@font/gotham_book"
+        android:text="Mark mcginnis"
+        android:textSize="10sp"
+        android:layout_marginTop="2dp"
+        tools:ignore="HardcodedText">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/savedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/headphone_icon"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/storyCreatorTextView">
+    </ImageView>
+    <TextView
+        android:id="@+id/savedNumberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/savedImageView"
+        app:layout_constraintTop_toBottomOf="@id/storyCreatorTextView"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text="278"
+        android:textColor="@color/gray_1"
+        android:fontFamily="@font/gotham_book"
+        android:textSize="10sp"
+        tools:ignore="HardcodedText">
+
+    </TextView>
+
+    <ImageView
+        android:id="@+id/readImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/read_icon"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/savedNumberTextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/storyCreatorTextView">
+    </ImageView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/readImageView"
+        app:layout_constraintTop_toBottomOf="@id/storyCreatorTextView"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:text="278"
+        android:textColor="@color/gray_1"
+        android:fontFamily="@font/gotham_book"
+        android:textSize="10sp"
+        tools:ignore="HardcodedText">
+
+    </TextView>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

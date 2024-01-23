@@ -5,17 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
-import com.example.storyapp_kotlin.ui.home.adapter.ViewPagerAdapter
 import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.ui.finishedStories.FinishedStories
 import com.example.storyapp_kotlin.databinding.FragmentHomePageBinding
 import com.example.storyapp_kotlin.di.NavigationManager.NavigationManager
 import com.example.storyapp_kotlin.ui.completeTheStory.CompleteTheStory
+import com.example.storyapp_kotlin.ui.finishedStories.FinishedStories
+import com.example.storyapp_kotlin.ui.home.adapter.categoryRVAdapter
+import com.example.storyapp_kotlin.ui.trending.TrendingFragment
 import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,23 +25,16 @@ import javax.inject.Inject
 class HomePageFragment : Fragment() {
 
     private lateinit var binding: FragmentHomePageBinding
-    private lateinit var viewPager : ViewPager2
-    private lateinit var viewPagerAdapter: ViewPagerAdapter
-    private lateinit var fragmentList: List<Fragment>
-    private lateinit var tabLayout: TabLayout
-    private var clicked : Boolean = false
-
-
     private val homePageViewModel: HomePageViewModel by viewModels()
+    private lateinit var categoryRVadapter : categoryRVAdapter
+
+    private val trendingFragment by lazy { TrendingFragment() }
+    private val completeStoryFragment by lazy { CompleteTheStory() }
+    private val finishedStories by lazy { FinishedStories() }
 
     @Inject
     lateinit var navigationManager: NavigationManager
 
-    //Kısaltılabilir mi diye bir bak! (Load Animation fonksiyonu tanımla!)
-    private val rotateOpen : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim) }
-    private val rotateClose : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim) }
-    private val fromBottom : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.from_bottom_anim) }
-    private val toBottom : Animation by lazy { android.view.animation.AnimationUtils.loadAnimation(context, R.anim.to_bottom_anim) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,103 +45,40 @@ class HomePageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomePageBinding.inflate(inflater, container, false)
-
-        initializeViewPager()
-        initializeTabLayout()
-
-        lifecycleScope.launch {
-            getAllUsers()
-        }
-
+        initalizeRV()
+        setFragment(trendingFragment)
 
         return binding.root
-    }
-
-    private suspend fun getAllUsers() {
-        homePageViewModel.getAllUsers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding){
-            fabButton.setOnClickListener { onAddButtonClicked() }
-            fabStoryButton.setOnClickListener { addStoryButtonClicked() }
-            fabProfileButton.setOnClickListener {
-                addProfileButtonClicked()
-            }
-        }
-
-        setupViewPagerAndTabs()
-    }
-
-    private fun addProfileButtonClicked() {
-        //navigateFromHomePage(R.id.action_homePageFragment_to_profilePageFragment)
-        val directions = HomePageFragmentDirections.actionHomePageFragmentToProfilePageFragment()
-        navigationManager.navigateTo(directions)
-    }
-
-
-
-    fun setupViewPagerAndTabs(){
-
-        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
-            override fun onPageSelected(position: Int) {
-                tabLayout.selectTab(tabLayout.getTabAt(position))
-            }
-        })
-
-        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab?) { viewPager.currentItem = tab!!.position }
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
-        })
-
-    }
-    private fun addStoryButtonClicked() {
-        val directions = HomePageFragmentDirections.actionHomePageFragmentToCreateStoryFragment()
-        navigationManager.navigateTo(directions)
-    }
-    private fun onAddButtonClicked() {
-        setVisibility(clicked)
-        setAnimation(clicked)
-        clicked = !clicked
-    }
-    private fun setAnimation(clicked : Boolean) {
-        with(binding){
-            if (!clicked){
-                fabStoryButton.startAnimation(fromBottom)
-                fabProfileButton.startAnimation(fromBottom)
-                fabButton.startAnimation(rotateOpen)
-            }else{
-                fabStoryButton.startAnimation(toBottom)
-                fabProfileButton.startAnimation(toBottom)
-                fabButton.startAnimation(rotateClose)
+        categoryRVadapter.onCategoryClick = {
+            println("Category Clicked")
+            when(it){
+                "Trending" -> setFragment(trendingFragment)
+                "Completed Stories" -> setFragment(completeStoryFragment)
+                "In Progress Stories" -> setFragment(finishedStories)
             }
         }
 
     }
-    private fun setVisibility(clicked : Boolean) {
-        with(binding){
-            if (!clicked){
-                fabStoryButton.visibility = View.VISIBLE
-                fabProfileButton.visibility = View.VISIBLE
-            }else{
-                fabStoryButton.visibility = View.INVISIBLE
-                fabProfileButton.visibility = View.INVISIBLE
-            }
-        }
+
+
+
+    private fun setFragment(fragment: Fragment){
+
+        //Burada existing fragment olayını incele. Eğer bottom nav ile uyumlu yapabiliyorsan ilerisi için daha iyi olur!
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.homeFrameLayout, fragment, fragment.javaClass.simpleName)
+            .commit()
     }
-    fun initializeViewPager(){
-        fragmentList = arrayListOf<Fragment>(CompleteTheStory(), FinishedStories())
-        viewPager = binding.viewPager
-        viewPagerAdapter = ViewPagerAdapter(this, fragmentList)
-        viewPager.adapter = viewPagerAdapter
+
+    private fun initalizeRV(){
+        categoryRVadapter = categoryRVAdapter()
+        binding.categoryReyclerView.adapter = categoryRVadapter
+        binding.categoryReyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
     }
-    fun initializeTabLayout(){
-        tabLayout = binding.tabLayout
-        tabLayout.addTab(tabLayout.newTab().setText("Complete The Story"))
-        tabLayout.addTab(tabLayout.newTab().setText("Finished Stories"))
-        tabLayout.tabGravity = TabLayout.GRAVITY_FILL
-    }
+
 }

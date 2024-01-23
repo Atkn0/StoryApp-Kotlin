@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="accent_green">#CDE7BE</color>
+    <color name="gray_1">#C4CCCC</color>
+    <color name="gray_4">#313333</color>
+    <color name="home_bg">#181A1A</color>
+    <color name="figma_white">#EAF4F4</color>
+
+
 </resources>

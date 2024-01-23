@@ -8,6 +8,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import com.example.storyapp_kotlin.ui.login.AuthViewModel
 import com.example.storyapp_kotlin.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val splashScreen = installSplashScreen()
+
+
 
         //checks user sign status beginning of the app
         var userStatusCheck = authViewModel.checkUserSignStatus()
@@ -42,10 +45,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val bottomNavView = binding.bottomNavigationView
+        val navHost =
+            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHost.navController
+        bottomNavView.setupWithNavController(navController)
+
+
         setContentView(binding.root)
     }
 
+    override fun onCreateView(
+        parent: View?,
+        name: String,
+        context: Context,
+        attrs: AttributeSet
+    ): View? {
+        return super.onCreateView(parent, name, context, attrs)
 
+
+    }
 
 
 
