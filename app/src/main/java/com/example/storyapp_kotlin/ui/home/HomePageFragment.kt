@@ -54,6 +54,8 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        //Stringlerle çalışmak yerine daha güvenilir bir çözüm yolu bul!
         categoryRVadapter.onCategoryClick = {
             println("Category Clicked")
             when(it){
