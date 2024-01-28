@@ -6,19 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.databinding.FragmentHomePageBinding
 import com.example.storyapp_kotlin.di.NavigationManager.NavigationManager
-import com.example.storyapp_kotlin.ui.completeTheStory.CompleteTheStory
-import com.example.storyapp_kotlin.ui.finishedStories.FinishedStories
+import com.example.storyapp_kotlin.ui.completed_stories.CompletedStoriesFragment
 import com.example.storyapp_kotlin.ui.home.adapter.categoryRVAdapter
+import com.example.storyapp_kotlin.ui.in_progress.InProgressStories
 import com.example.storyapp_kotlin.ui.trending.TrendingFragment
-import com.google.android.material.tabs.TabLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,8 +25,8 @@ class HomePageFragment : Fragment() {
     private lateinit var categoryRVadapter : categoryRVAdapter
 
     private val trendingFragment by lazy { TrendingFragment() }
-    private val completeStoryFragment by lazy { CompleteTheStory() }
-    private val finishedStories by lazy { FinishedStories() }
+    private val completedStoriesFragment by lazy { CompletedStoriesFragment() }
+    private val inProgressStoriesFragment by lazy { InProgressStories() }
 
     @Inject
     lateinit var navigationManager: NavigationManager
@@ -60,8 +56,8 @@ class HomePageFragment : Fragment() {
             println("Category Clicked")
             when(it){
                 "Trending" -> setFragment(trendingFragment)
-                "Completed Stories" -> setFragment(completeStoryFragment)
-                "In Progress Stories" -> setFragment(finishedStories)
+                "Completed Stories" -> setFragment(completedStoriesFragment)
+                "In Progress Stories" -> setFragment(inProgressStoriesFragment)
             }
         }
 

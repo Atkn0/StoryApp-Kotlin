@@ -1,8 +1,6 @@
-package com.example.storyapp_kotlin.ui.trending
+package com.example.storyapp_kotlin.ui.in_progress
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Layout
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,17 +11,16 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.databinding.FragmentTrendingBinding
+import com.example.storyapp_kotlin.databinding.FragmentInProgressStoriesBinding
 import com.example.storyapp_kotlin.ui.common_rv.commonRVadapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class TrendingFragment : Fragment() {
+class InProgressStories : Fragment() {
 
-    private lateinit var binding: FragmentTrendingBinding
-    private lateinit var commonRVAdapter: commonRVadapter
-    private val trendingViewModel : TrendingViewModel by viewModels()
+    private lateinit var binding: FragmentInProgressStoriesBinding
+    private val inProgressViewModel : InProgressViewModel by viewModels()
 
 
 
@@ -31,27 +28,24 @@ class TrendingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentTrendingBinding.inflate(inflater, container, false)
+        binding  = FragmentInProgressStoriesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initializeRv()
+        initializeRV()
 
     }
 
-    private fun initializeRv() {
 
-        trendingTopRV()
-        trendingRV()
-
-
+    private fun initializeRV(){
+        newReleaseRV()
+        inProgressRV()
     }
 
     //3 farklı fragmentta bu fonksiyonu kullanıyorsun, daha iyi bir çözüm bul
-    private fun createRecyclerView(parentLayout: FrameLayout, category : String){
+    private fun createRecyclerView(parentLayout: FrameLayout, category : String) {
         val innerLayout = LayoutInflater.from(requireContext()).inflate(R.layout.common_rv_layout, null, false)
 
         val categoryName = innerLayout.findViewById(R.id.categoryNameTextView) as TextView
@@ -64,14 +58,13 @@ class TrendingFragment : Fragment() {
         parentLayout.addView(innerLayout)
     }
 
-    private fun trendingTopRV(){
-        val trendingTop = binding.trendingTop
-        createRecyclerView(trendingTop, "Top Trending")
+    private fun newReleaseRV(){
+        val newRelease = binding.newRelease
+        createRecyclerView(newRelease,"New Release")
     }
-
-    private fun trendingRV(){
-        val secondTrending = binding.trending
-        createRecyclerView(secondTrending, "Trending")
+    private fun inProgressRV(){
+        val inProgress = binding.inProgressStories
+        createRecyclerView(inProgress,"In Progress")
     }
 
 

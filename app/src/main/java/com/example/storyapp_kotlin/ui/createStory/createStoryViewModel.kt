@@ -34,6 +34,8 @@ class createStoryViewModel @Inject constructor(
     private val users_ref = firestore.collection("Users")
     private val completeTheStory_ref = firestore.collection("completeTheStory")
 
+    val userCreditControl = MutableLiveData<Boolean>()
+    private lateinit var userUID : String
     private val _wordCount = MutableLiveData<Int>()
     val wordCount: LiveData<Int>
         get() = _wordCount
@@ -45,16 +47,21 @@ class createStoryViewModel @Inject constructor(
     init {
         _wordCount.value = 0
         _isCreateButtonEnabled.value = true
+        userUID = auth.currentUser!!.uid
     }
 
 
-    suspend fun createStory(storyContent : String){
 
-        val userUID = auth.currentUser!!.uid
-        val hasEnoughCredit = checkUserCredit(userUID)
 
-        if (hasEnoughCredit) addCreatedStoryToFirestore(userUID, storyContent)
-        else println("User does not have enough credit")
+    suspend fun checkUserCredit(){
+        try {
+            val userModel = getUserByIdUseCase(userUID)!!
+            println("check user credit try true")
+            userCreditControl.value = userModel.storyCreationCredit >= 2
+        }
+        catch (e : Exception){
+            println("Error in checkUserCredit function")
+        }
 
     }
 
@@ -64,7 +71,7 @@ class createStoryViewModel @Inject constructor(
         _isCreateButtonEnabled.value = wordCount.value!! <= 50
     }
 
-    private suspend fun checkUserCredit(userUID : String) : Boolean{
+     suspend fun checkUserCredit(userUID : String) : Boolean{
         return try {
             val userModel = getUserByIdUseCase(userUID)!!
             userModel.storyCreationCredit > 0
@@ -75,35 +82,8 @@ class createStoryViewModel @Inject constructor(
         }
 
     }
-    private suspend fun addCreatedStoryToFirestore(userUID : String,storyContent: String){
-        viewModelScope.launch {
-            val addCreateIsSuccess = async {addCreatedStoryFirestoreUseCase(storyContent,userUID)}.await()
-        }
-    }
 
-    fun makeApiCallImage() = viewModelScope.launch {
-        try {
-            println("try içinde!")
 
-            val request = ImageRequestBody(text = "a dog")
-            val response = apiService.getTextToImageResponse(request)
 
-            if (response.isSuccessful) {
-                println("Response success!")
-                // Başarılı cevap
-                val responseBody = response.body()
-                // TODO: responseBody ile gerekli işlemleri yapın
-            } else {
-                println("Response errorr!")
-                // Hata durumu
-                val errorMessage = response.errorBody()?.string()
-                println(errorMessage)
-            }
-        }
-        catch (e : Exception){
-            println("Error in makeApiCallImage function")
-            println(e.localizedMessage)
-        }
-    }
 
 }

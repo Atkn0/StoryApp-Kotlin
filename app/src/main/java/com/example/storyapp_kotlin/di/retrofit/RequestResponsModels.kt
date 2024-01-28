@@ -4,5 +4,5 @@ data class ImageRequestBody(
     val text: String
 )
 data class ImageResponseBody(
-    val image: String
+    val generated_image: String
 )

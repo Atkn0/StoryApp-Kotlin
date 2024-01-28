@@ -9,37 +9,48 @@
     tools:context=".ui.createStory.createStoryFragment">
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/backButtonLinearLayout"
-        android:orientation="horizontal"
+    <com.google.android.material.card.MaterialCardView
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp">
-
-        <ImageView
-            android:id="@+id/back_icon"
-            android:layout_width="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/gray_4"
+        app:cardBackgroundColor="@color/home_bg"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="16dp"
+        android:id="@+id/warningCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="15dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/back_arrow">
+            android:id="@+id/backButtonLinearLayout"
+            android:orientation="horizontal">
 
-        </ImageView>
+            <ImageView
+                android:id="@+id/back_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/error_icon">
 
-        <TextView
-            android:layout_gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:textSize="16sp"
-            android:textColor="@color/figma_white"
-            android:fontFamily="@font/gotham_bold"
-            android:text="Back"
-            tools:ignore="HardcodedText" />
+            </ImageView>
 
-    </LinearLayout>
-    
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="16sp"
+                android:textColor="@color/figma_white"
+                android:fontFamily="@font/gotham_bold"
+                android:text="You don't have enough credits to create a story"
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
 
 
     <EditText
@@ -57,7 +68,7 @@
         android:textColorHint="@color/gray_4"
         android:textSize="40sp"
         android:background="@null"
-        app:layout_constraintTop_toBottomOf="@id/backButtonLinearLayout"
+        app:layout_constraintTop_toBottomOf="@id/warningCardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="HardcodedText" />
@@ -82,7 +93,7 @@
         android:background="@null"
         android:textColorHint="@color/gray_4"
         android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/createStorybutton"
+        app:layout_constraintBottom_toTopOf="@+id/storyNextButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/storyTitleEditText"
@@ -103,18 +114,19 @@
     </TextView>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/storyNextButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/createStorybutton"
-        android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="30dp"
-        app:backgroundTint="@color/accent_green"
-        android:text="Create Story"
+        android:layout_marginVertical="10dp"
+        android:layout_marginBottom="16dp"
         android:fontFamily="@font/gotham_bold"
+        android:text="Next"
         android:textColor="@color/home_bg"
+        app:backgroundTint="@color/accent_green"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="HardcodedText">
 
     </com.google.android.material.button.MaterialButton>

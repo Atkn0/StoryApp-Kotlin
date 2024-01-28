@@ -8,9 +8,9 @@ import retrofit2.http.POST
 interface apiService {
     @Headers(
         "content-type: application/json",
-        "X-RapidAPI-Key: 004539b61emshc0462a091ea5c9fp15faf1jsn17216ff0eb63",
-        "X-RapidAPI-Host: chatgpt-42.p.rapidapi.com"
+        "X-RapidAPI-Key: 691c89bcfcmsh17efb1ba3e83c89p1c2684jsn75e7d103a1d1",
+        "X-RapidAPI-Host: open-ai21.p.rapidapi.com"
     )
-    @POST("texttoimage")
+    @POST("texttoimage2")
     suspend fun getTextToImageResponse(@Body request: ImageRequestBody): Response<ImageResponseBody>
 }

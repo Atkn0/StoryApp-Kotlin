@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/home_bg"
+    android:layout_height="match_parent"
+    android:paddingBottom="60dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.story_overview.suprise_me.supriseMeDialogFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/gray_4"
+        app:cardBackgroundColor="@color/home_bg"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:id="@+id/suprise_me_info_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:padding="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/backButtonLinearLayout"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ProgressBar
+                    android:id="@+id/supriseMeProgressBar"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                </ProgressBar>
+
+                <ImageView
+                    android:id="@+id/supriseMeDoneIcon"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/check_circle_24px">
+
+                </ImageView>
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:id="@+id/supriseMeInfoTextView"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:textSize="16sp"
+                android:textColor="@color/figma_white"
+                android:fontFamily="@font/gotham_bold"
+                android:text="Your image is being created. Please enjoy the stories."
+                tools:ignore="HardcodedText" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dialogCardView"
+        app:layout_constraintTop_toBottomOf="@id/suprise_me_info_card_view"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        app:strokeColor="@color/gray_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/home_bg">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/creatorLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+                <TextView
+                    android:id="@+id/createdByTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Created by "
+                    android:textColor="@color/figma_white"
+                    android:fontFamily="@font/gotham_medium"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
+                <TextView
+                    android:id="@+id/creatorName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Arda Atakan Tosun "
+                    android:textColor="@color/figma_white"
+                    android:fontFamily="@font/gotham_bold"
+                    android:textSize="16sp"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/storyTitle"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mysterious Atlas"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/figma_white"
+                android:fontFamily="@font/gotham_medium"
+                android:textSize="24sp"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/storyContent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/storyTitle"
+                app:layout_constraintBottom_toTopOf="@id/creatorLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="An ancient map beckons to trace the path of lost time. An explorer embarks on a journey filled with secrets in the mysterious realms pointed by the map. As the doors of time open, the explorer witnesses the mysteries of the past and the future."
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="25dp"
+                android:textColor="@color/figma_white"
+                android:fontFamily="@font/gotham_medium"
+                android:textSize="20sp"
+                tools:ignore="HardcodedText" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/dialogSupriseMeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/dialogCardView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+        android:text="Surprise Me!"
+        android:fontFamily="@font/gotham_medium"
+        app:cornerRadius="13sp"
+        android:layout_below="@id/dialogCardView"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/gray_4"
+        android:backgroundTint="@color/accent_green"
+        tools:ignore="HardcodedText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
