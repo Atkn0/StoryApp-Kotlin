@@ -14,8 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.databinding.FragmentTrendingBinding
+import com.example.storyapp_kotlin.models.StoryModel
+import com.example.storyapp_kotlin.models.UserModel
 import com.example.storyapp_kotlin.ui.common_rv.commonRVadapter
+import com.example.storyapp_kotlin.utils.RecyclerViewBuilder.RecyclerViewBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.ArrayList
 
 
 @AndroidEntryPoint
@@ -32,46 +36,51 @@ class TrendingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentTrendingBinding.inflate(inflater, container, false)
+        trendingViewModel.getStoriesByCollection("TrendingStories")
+        getAllUsers()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initializeRv()
+        trendingViewModel.combinedLiveData.observe(viewLifecycleOwner) { (storyList,userList) ->
+            if (storyList != null && userList != null) {
+                println("storyList: $storyList")
+                println("userList: $userList")
+                initializeRv(storyList,userList)
+            }
+        }
+
 
     }
 
-    private fun initializeRv() {
+    private fun getAllUsers(){
+        trendingViewModel.getAllUsers()
+    }
 
-        trendingTopRV()
-        trendingRV()
+    private fun initializeRv(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>) {
+
+        trendingTopRV(storyList,userList)
+        trendingRV(storyList,userList)
 
 
     }
 
-    //3 farklı fragmentta bu fonksiyonu kullanıyorsun, daha iyi bir çözüm bul
-    private fun createRecyclerView(parentLayout: FrameLayout, category : String){
-        val innerLayout = LayoutInflater.from(requireContext()).inflate(R.layout.common_rv_layout, null, false)
-
-        val categoryName = innerLayout.findViewById(R.id.categoryNameTextView) as TextView
-        categoryName.text = category
-
-        val recyclerView = innerLayout.findViewById(R.id.common_recyclerView) as RecyclerView
-        recyclerView.adapter = commonRVadapter(null, 3)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        parentLayout.addView(innerLayout)
+    private fun trendingTopRV(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>){
+        RecyclerViewBuilder(requireContext())
+            .withCategory("Top Trending")
+            .withAdapter(commonRVadapter(storyList,userList))
+            .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
+            .build(binding.trendingTop)
     }
 
-    private fun trendingTopRV(){
-        val trendingTop = binding.trendingTop
-        createRecyclerView(trendingTop, "Top Trending")
-    }
-
-    private fun trendingRV(){
-        val secondTrending = binding.trending
-        createRecyclerView(secondTrending, "Trending")
+    private fun trendingRV(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>){
+        RecyclerViewBuilder(requireContext())
+            .withCategory("Trending")
+            .withAdapter(commonRVadapter(storyList,userList))
+            .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
+            .build(binding.trending)
     }
 
 

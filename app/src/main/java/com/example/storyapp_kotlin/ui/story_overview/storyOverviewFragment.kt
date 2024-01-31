@@ -26,6 +26,7 @@ class storyOverviewFragment : Fragment() {
     private val storyOverviewViewModel : storyOverviewViewModel by activityViewModels()
     val args : storyOverviewFragmentArgs by navArgs()
     lateinit var storyContent : String
+    lateinit var storyTitle : String
 
     private var buttonX : Float = 0.0f
     private var buttonY : Float = 0.0f
@@ -51,6 +52,8 @@ class storyOverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         storyContent = args.currentStory.storyContent
+        storyTitle = args.currentStory.storyTitle
+
         lifecycleScope.launch {
             storyOverviewViewModel.makeApiCallImage(storyContent)
         }
@@ -63,17 +66,22 @@ class storyOverviewFragment : Fragment() {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        storyOverviewViewModel.clearData()
+    }
+
     private fun setupObservers() {
         storyOverviewViewModel.isProgressSuccess.observe(viewLifecycleOwner) {
             binding.storyImageProgressBar.visibility = if (it) View.GONE else View.VISIBLE
         }
 
-        storyOverviewViewModel.isAddStorySuccess.observe(viewLifecycleOwner) {
-            if (it){
-                Toast.makeText(requireContext(), "Story added successfully!", Toast.LENGTH_LONG).show()
+        storyOverviewViewModel.isAddStorySuccess.observe(viewLifecycleOwner) {isSuccess->
+            if (isSuccess == true){
+                Toast.makeText(requireContext(), "Story added successfully!", Toast.LENGTH_SHORT).show()
                 view?.postDelayed({
                     findNavController().popBackStack()
-                }, 2000)
+                }, 1500)
             }else{
                 Toast.makeText(requireContext(), "Story added failed!", Toast.LENGTH_LONG).show()
 
@@ -84,7 +92,7 @@ class storyOverviewFragment : Fragment() {
     private fun setupCreateStoryButton() {
         binding.createStoryButton.setOnClickListener {
             lifecycleScope.launch {
-                storyOverviewViewModel.addCreatedStoryToFirestore(storyContent)
+                storyOverviewViewModel.addCreatedStoryToFirestore(storyTitle = storyTitle,storyContent)
             }
         }
     }

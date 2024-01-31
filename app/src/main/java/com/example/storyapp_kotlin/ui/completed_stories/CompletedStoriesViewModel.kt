@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.ui.trending
+package com.example.storyapp_kotlin.ui.completed_stories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -12,13 +12,13 @@ import com.example.storyapp_kotlin.models.UserModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @HiltViewModel
-class TrendingViewModel @Inject constructor(
+class CompletedStoriesViewModel @Inject constructor(
     private val getStoriesByCollectionUseCase: GetStoriesByCollectionUseCase,
     private val getAllUsersUseCase: GetAllUsersUseCase
 ): ViewModel() {
-
 
     private val _storyList = MutableLiveData<ArrayList<StoryModel>>()
     val storyList: LiveData<ArrayList<StoryModel>> get() = _storyList
@@ -55,7 +55,5 @@ class TrendingViewModel @Inject constructor(
             _userList.postValue(users)
         }
     }
-
-
 
 }

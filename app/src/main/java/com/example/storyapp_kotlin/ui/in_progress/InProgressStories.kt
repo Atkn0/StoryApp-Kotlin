@@ -12,7 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.databinding.FragmentInProgressStoriesBinding
+import com.example.storyapp_kotlin.models.StoryModel
+import com.example.storyapp_kotlin.models.UserModel
 import com.example.storyapp_kotlin.ui.common_rv.commonRVadapter
+import com.example.storyapp_kotlin.utils.RecyclerViewBuilder.RecyclerViewBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -29,43 +32,48 @@ class InProgressStories : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding  = FragmentInProgressStoriesBinding.inflate(inflater, container, false)
+        inProgressViewModel.getStoriesByCollection("InProgressStories")
+        getAllUsers()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeRV()
+
+        inProgressViewModel.combinedLiveData.observe(viewLifecycleOwner) { (storyList,userList) ->
+            if (storyList != null && userList != null) {
+                println("storyList: $storyList")
+                println("userList: $userList")
+                initializeRV(storyList,userList)
+            }
+        }
 
     }
 
 
-    private fun initializeRV(){
-        newReleaseRV()
-        inProgressRV()
+    private fun getAllUsers(){
+        inProgressViewModel.getAllUsers()
     }
 
-    //3 farklı fragmentta bu fonksiyonu kullanıyorsun, daha iyi bir çözüm bul
-    private fun createRecyclerView(parentLayout: FrameLayout, category : String) {
-        val innerLayout = LayoutInflater.from(requireContext()).inflate(R.layout.common_rv_layout, null, false)
-
-        val categoryName = innerLayout.findViewById(R.id.categoryNameTextView) as TextView
-        categoryName.text = category
-
-        val recyclerView = innerLayout.findViewById(R.id.common_recyclerView) as RecyclerView
-        recyclerView.adapter = commonRVadapter(null, 3)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-
-        parentLayout.addView(innerLayout)
+    private fun initializeRV(storyList : ArrayList<StoryModel>,userList:ArrayList<UserModel>){
+        newReleaseRV(storyList,userList)
+        inProgressRV(storyList,userList)
     }
 
-    private fun newReleaseRV(){
-        val newRelease = binding.newRelease
-        createRecyclerView(newRelease,"New Release")
-    }
-    private fun inProgressRV(){
-        val inProgress = binding.inProgressStories
-        createRecyclerView(inProgress,"In Progress")
+    private fun newReleaseRV(storyList : ArrayList<StoryModel>,userList:ArrayList<UserModel>){
+        RecyclerViewBuilder(requireContext())
+            .withCategory("New Release")
+            .withAdapter(commonRVadapter(storyList,userList))
+            .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
+            .build(binding.newRelease)
     }
 
+    private fun inProgressRV(storyList: ArrayList<StoryModel>,userList:ArrayList<UserModel>){
+        RecyclerViewBuilder(requireContext())
+            .withCategory("In Progress")
+            .withAdapter(commonRVadapter(storyList,userList))
+            .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
+            .build(binding.inProgressStories)
+    }
 
 }

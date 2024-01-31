@@ -7,8 +7,8 @@ import javax.inject.Singleton
 @Singleton
 class AddCreatedStoryFirestoreUseCase @Inject constructor(private val firebaseRepository: FirebaseRepository) {
 
-    suspend operator fun invoke(storyContent: String,storyImageUrl : String) : Boolean {
-        return firebaseRepository.addCreatedStoryFirestore(storyContent,storyImageUrl)
+    suspend operator fun invoke(storyTitle : String,storyContent: String,storyImageUrl : String) : Boolean {
+        return firebaseRepository.addCreatedStoryFirestore(storyTitle,storyContent,storyImageUrl)
     }
 
 }

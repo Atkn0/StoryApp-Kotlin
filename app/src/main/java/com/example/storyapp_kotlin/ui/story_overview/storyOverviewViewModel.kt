@@ -21,9 +21,9 @@ class storyOverviewViewModel @Inject constructor(
 ) : ViewModel() {
 
     val isProgressSuccess = MutableLiveData<Boolean>()
-    val storyImageUrl = MutableLiveData<String>()
+    val storyImageUrl = MutableLiveData<String?>()
     val surpiseStory = MutableLiveData<StoryModel?>()
-    val isAddStorySuccess = MutableLiveData<Boolean>()
+    val isAddStorySuccess = MutableLiveData<Boolean?>().apply { value = false }
 
     init {
         isProgressSuccess.value = false
@@ -49,9 +49,9 @@ class storyOverviewViewModel @Inject constructor(
         }
     }
 
-    suspend fun addCreatedStoryToFirestore(storyContent : String){
+    suspend fun addCreatedStoryToFirestore(storyTitle:String,storyContent : String){
         try {
-            val result = addCreatedStoryFirestoreUseCase(storyContent, storyImageUrl.value.toString())
+            val result = addCreatedStoryFirestoreUseCase(storyTitle = storyTitle ,storyContent, storyImageUrl.value.toString())
             isAddStorySuccess.postValue(result)
         } catch (e: Exception) {
             println(e.localizedMessage)
@@ -68,6 +68,13 @@ class storyOverviewViewModel @Inject constructor(
         val randomIndex = (0..<storiesList.size).random()
         val randomStory = storiesList[randomIndex]
         surpiseStory.value = randomStory
+    }
+
+    fun clearData() {
+        isProgressSuccess.value = false
+        storyImageUrl.value = null
+        surpiseStory.value = null
+        isAddStorySuccess.value = false
     }
 
 

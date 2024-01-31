@@ -5,6 +5,7 @@ import com.example.storyapp_kotlin.domain.usecase.AddCreatedStoryFirestoreUseCas
 import com.example.storyapp_kotlin.domain.usecase.GetAllUsersUseCase
 import com.example.storyapp_kotlin.domain.usecase.GetCompleteStoriesUseCase
 import com.example.storyapp_kotlin.domain.usecase.GetCompleteStoryByIDUseCase
+import com.example.storyapp_kotlin.domain.usecase.GetStoriesByCollectionUseCase
 import com.example.storyapp_kotlin.domain.usecase.GetUserByIdUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -63,6 +64,12 @@ object FirebaseModule {
     @Singleton
     fun provideGetCompleteStoryByIDUseCase(firebaseRepository: FirebaseRepository) : GetCompleteStoryByIDUseCase {
         return GetCompleteStoryByIDUseCase(firebaseRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetStoriesByCollection(firebaseRepository: FirebaseRepository) : GetStoriesByCollectionUseCase {
+        return GetStoriesByCollectionUseCase(firebaseRepository)
     }
 
 }
