@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.StoryAppKotlin" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">#181A1A</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
@@ -11,4 +12,15 @@
     </style>
 
     <style name="Theme.StoryAppKotlin" parent="Base.Theme.StoryAppKotlin" />
+
+    <style name="BottomNavigationViewActiveText">
+        <item name="android:textColor">@color/accent_green</item>
+        <item name="android:fontFamily">@font/bottom_nav_selected</item>
+    </style>
+    <style name="BottomNavigationViewInactiveText">
+        <item name="android:textColor">@color/gray_1</item>
+        <item name="android:fontFamily">@font/bottom_nav_unselected</item>
+    </style>
+
+
 </resources>

@@ -24,6 +24,7 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        println("oncreate yeniden çalıştı")
 
     }
 

@@ -4,9 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
@@ -20,14 +18,16 @@ class FirebaseRepository @Inject constructor(){
 
     private val db = Firebase.firestore
     private val auth = Firebase.auth
-    private val completeTheStory_ref = db.collection("completeTheStory")
+    private val inProgressStories = db.collection("InProgressStories")
+    private val users_ref = db.collection("Users")
+
 
     var isJoinStorySuccess = MutableLiveData<Boolean>()
-
+    var storiesByCollection = MutableLiveData<ArrayList<StoryModel>>()
 
 
     suspend fun getAllUsers() : ArrayList<UserModel>{
-        val userCollection = db.collection("Users").get().await()
+        val userCollection = users_ref.get().await()
 
         val userList = arrayListOf<UserModel>()
         for (document in userCollection){
@@ -42,7 +42,7 @@ class FirebaseRepository @Inject constructor(){
         return userList
     }
     suspend fun getCompleteStories() : ArrayList<StoryModel>{
-        val completeTheStoryCollection = db.collection("completeTheStory").get().await()
+        val completeTheStoryCollection = inProgressStories.get().await()
 
         val completeTheStoryList = arrayListOf<StoryModel>()
         for (document in completeTheStoryCollection){
@@ -111,7 +111,7 @@ class FirebaseRepository @Inject constructor(){
 
 
         return try {
-            completeTheStory_ref
+            inProgressStories
                 .document(storyID!!)
                 .update(updates)
                 .await()
@@ -147,9 +147,11 @@ class FirebaseRepository @Inject constructor(){
             null
         }
     }
-    fun addCreatedStoryFirestore(storyContent: String, userUID: String) : Boolean {
+    suspend fun addCreatedStoryFirestore(storyTitle : String ,storyContent: String, storyImageUrl : String) : Boolean {
 
+        var isSuccess : Boolean = false
         val storyID = UUID.randomUUID().toString()
+        val userUID = auth.currentUser!!.uid
         val storyContentMap = hashMapOf(
             userUID to storyContent
         )
@@ -157,6 +159,8 @@ class FirebaseRepository @Inject constructor(){
 
         val storyModel = StoryModel(
             storyId = storyID,
+            storyTitle = storyTitle,
+            storyImageUrl = storyImageUrl,
             storyContent = storyContentMap,
             contributions = arrayListOf(userUID),
             numberOfReader = 0,
@@ -165,19 +169,46 @@ class FirebaseRepository @Inject constructor(){
             createdDate = Timestamp.now()
         )
 
-        var isSuccess : Boolean = false
+        isSuccess = try {
+            inProgressStories.document().set(storyModel).await()
+            true
 
-        completeTheStory_ref
-            .document(storyID)
-            .set(storyModel)
-            .addOnSuccessListener {
-                isSuccess = true
-            }
-            .addOnFailureListener {
-                isSuccess = false
-            }
+        } catch (e : Exception){
+            println("Error in addCreatedStoryFirestore function")
+            println(e.localizedMessage)
+            false
+        }
 
         return isSuccess
+    }
+
+    suspend fun getStoriesByCollection(collectionPath : String) : ArrayList<StoryModel> {
+        val collection = db.collection(collectionPath).get().await()
+        try {
+
+            val storyList = arrayListOf<StoryModel>()
+            for (document in collection){
+                val storyModel = StoryModel(
+                    storyId = document.get("storyId").toString(),
+                    storyTitle = document.get("storyTitle").toString(),
+                    storyImageUrl = document.get("storyImageUrl").toString(),
+                    storyContent = document.get("storyContent") as HashMap<String,String>,
+                    contributions = document.get("contributions") as ArrayList<String>,
+                    numberOfReader = document.getLong("numberOfReader")!!.toInt(),
+                    numberOfLikes = document.getLong("numberOfLikes")!!.toInt(),
+                    isFinished = document.get("finished") as Boolean?,
+                    createdDate = document.getTimestamp("createdDate")!!
+                )
+                storyList.add(storyModel)
+            }
+            return storyList
+
+        }catch (e : Exception){
+            println("Error in getStoriesByCollection function")
+            println(e.localizedMessage)
+            return arrayListOf()
+        }
+
     }
 
 

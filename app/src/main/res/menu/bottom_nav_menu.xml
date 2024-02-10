@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homePageFragment"
+        android:icon="@drawable/home_icon"
+        android:title="Home"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/createStoryFragment"
+        android:icon="@drawable/explore_icon"
+        android:title="Explore"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/libraryFragment"
+        android:icon="@drawable/library_icon"
+        android:title="Library"
+        tools:ignore="HardcodedText" />
+
+</menu>

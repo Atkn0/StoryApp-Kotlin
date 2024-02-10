@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.ui.finishedStories
+package com.example.storyapp_kotlin.ui.library
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,13 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.storyapp_kotlin.R
-import com.example.storyapp_kotlin.databinding.FragmentFinishedStoriesBinding
 
 
-class FinishedStories : Fragment() {
-
-    private lateinit var binding: FragmentFinishedStoriesBinding
-
+class LibraryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +20,7 @@ class FinishedStories : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentFinishedStoriesBinding.inflate(inflater, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_library, container, false)
     }
 
 
