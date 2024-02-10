@@ -29,13 +29,11 @@ class TrendingViewModel @Inject constructor(
     val combinedLiveData = MediatorLiveData<Pair<ArrayList<StoryModel>?, ArrayList<UserModel>?>>()
     init {
         combinedLiveData.addSource(storyList) { storyListValue->
-            // Her iki LiveData'dan gelen veri burada kontrol edilecek
             val userListValue = userList.value
             combinedLiveData.value = Pair(storyListValue, userListValue)
         }
 
         combinedLiveData.addSource(userList) { userListValue ->
-            // Her iki LiveData'dan gelen veri burada kontrol edilecek
             val storyListValue = storyList.value
             combinedLiveData.value = Pair(storyListValue, userListValue)
         }

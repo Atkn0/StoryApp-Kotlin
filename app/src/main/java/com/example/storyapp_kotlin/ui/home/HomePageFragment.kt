@@ -74,7 +74,8 @@ class HomePageFragment : Fragment() {
     }
 
     private fun initalizeRV(){
-        categoryRVadapter = categoryRVAdapter()
+        val categoryList = arrayListOf("Trending","Completed Stories","In Progress Stories")
+        categoryRVadapter = categoryRVAdapter(categoryList)
         binding.categoryReyclerView.adapter = categoryRVadapter
         binding.categoryReyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
     }

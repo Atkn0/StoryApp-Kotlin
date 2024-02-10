@@ -1,18 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/home_bg"
     android:layout_height="match_parent"
     tools:context=".ui.library.LibraryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:textSize="30sp"
-        android:textColor="@color/white"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <LinearLayout
+        android:id="@+id/myLibraryLinearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/gotham_bold"
+            android:text="My Library"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textSize="24sp"
+            tools:ignore="HardcodedText">
+
+        </TextView>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/library_vector">
+
+        </ImageView>
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/myLibraryLinearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:clipToPadding="false"
+        android:layout_marginTop="24dp"
+        android:id="@+id/libraryCategoryRecyclerView">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/libraryStoriesRecyclerView"
+        app:layout_constraintTop_toBottomOf="@id/libraryCategoryRecyclerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

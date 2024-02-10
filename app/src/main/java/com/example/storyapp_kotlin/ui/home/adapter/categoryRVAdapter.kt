@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storyapp_kotlin.databinding.CategoryButtonLayoutBinding
 
-class categoryRVAdapter() : RecyclerView.Adapter<categoryRVAdapter.categoryViewHolder>(){
+class categoryRVAdapter(val categoryList : ArrayList<String>) : RecyclerView.Adapter<categoryRVAdapter.categoryViewHolder>(){
 
-    private val categoryList = listOf("Trending","Completed Stories","In Progress Stories")
     private var selectedPosition = 0
 
     var onCategoryClick: ((String) -> Unit)? = null
@@ -23,7 +22,7 @@ class categoryRVAdapter() : RecyclerView.Adapter<categoryRVAdapter.categoryViewH
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return categoryList.size
     }
 
     override fun onBindViewHolder(holder: categoryViewHolder, position: Int) {
@@ -55,15 +54,5 @@ class categoryRVAdapter() : RecyclerView.Adapter<categoryRVAdapter.categoryViewH
             val selectedColor = if (position == selectedPosition) Color.parseColor("#CDE7BE") else Color.parseColor("#00FFFFFF")
             categoryButton.setCardBackgroundColor(selectedColor)
         }
-
-
-
-
-
-
-
-
-
     }
-
 }

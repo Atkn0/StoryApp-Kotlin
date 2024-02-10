@@ -93,7 +93,6 @@ class FirebaseRepository @Inject constructor(){
 
         val contributions = storyModel.contributions
 
-        // Eğer kullanıcı zaten katılmışsa, mesajı yazdır ve fonksiyondan çık
         if (contributions?.contains(userUID) == true) {
             println("Zaten bu hikayeye katıldınız.")
             return false
@@ -103,7 +102,6 @@ class FirebaseRepository @Inject constructor(){
 
         val updatedStoryHashMap = updateStoryContent(storyModel,userUID,newStoryContent)
 
-        // Belirli alanlarda güncelleme yapmak için bir `HashMap` oluştur
         val updates = hashMapOf(
             "contributions" to contributions as Any,
             "storyContent" to updatedStoryHashMap as Any

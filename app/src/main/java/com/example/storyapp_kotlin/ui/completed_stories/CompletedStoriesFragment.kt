@@ -61,6 +61,7 @@ class CompletedStoriesFragment @Inject constructor() : Fragment() {
         completedStoriesViewModel.getAllUsers()
     }
 
+    //observer içerisinde her seferinde diğer Rv leri de çağrıyorum düzelt!
     private fun initializeRV(storyList : ArrayList<StoryModel>,userList : ArrayList<UserModel>){
         recentlyCompletedRV(storyList,userList)
         topRatedRV(storyList,userList)

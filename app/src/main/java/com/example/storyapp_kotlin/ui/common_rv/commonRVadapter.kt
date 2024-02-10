@@ -31,7 +31,7 @@ class commonRVadapter(val storyList: ArrayList<StoryModel>,val userList: ArrayLi
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         createItemUI(holder, position)
-        matchCreatorToStory(holder,position)
+        matchCreatorToStory(holder, storyList[position])
 
         //for story book cover
         Glide.with(holder.itemView.context)
@@ -44,19 +44,23 @@ class commonRVadapter(val storyList: ArrayList<StoryModel>,val userList: ArrayLi
     private fun createItemUI(holder: ViewHolder, position: Int) {
         with(holder.binding) {
             storyTitleTextView.text = storyList[position].storyTitle
-            //storyCreatorTextView.text = storyList[position].contributions?.get(0).toString()
             numberOfReaderTextView.text = storyList[position].numberOfReader.toString()
         }
 
     }
 
-    fun matchCreatorToStory(holder: ViewHolder, position: Int){
-        for (story in storyList){
-            for (user in userList ){
-                if (story.contributions?.get(0) == user.userId){
-                    holder.binding.storyCreatorTextView.text = user.email
-                }
-            }
+    private fun matchCreatorToStory(holder: ViewHolder, currentStory: StoryModel) {
+        currentStory.contributions?.get(0)?.let { creatorId ->
+            val matchingUser = userList.find { it.userId == creatorId }
+            holder.binding.storyCreatorTextView.text = matchingUser?.email ?: "Unknown Creator"
         }
+    }
+
+    fun updateData(newStoryList : ArrayList<StoryModel>,newUserList : ArrayList<UserModel>){
+        storyList.clear()
+        storyList.addAll(newStoryList)
+        userList.clear()
+        userList.addAll(newUserList)
+        notifyDataSetChanged()
     }
 }

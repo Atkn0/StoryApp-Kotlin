@@ -46,8 +46,6 @@ class TrendingFragment : Fragment() {
 
         trendingViewModel.combinedLiveData.observe(viewLifecycleOwner) { (storyList,userList) ->
             if (storyList != null && userList != null) {
-                println("storyList: $storyList")
-                println("userList: $userList")
                 initializeRv(storyList,userList)
             }
         }
@@ -60,11 +58,8 @@ class TrendingFragment : Fragment() {
     }
 
     private fun initializeRv(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>) {
-
         trendingTopRV(storyList,userList)
         trendingRV(storyList,userList)
-
-
     }
 
     private fun trendingTopRV(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>){
