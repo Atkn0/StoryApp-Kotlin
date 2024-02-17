@@ -14,7 +14,7 @@ import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.databinding.FragmentInProgressStoriesBinding
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
-import com.example.storyapp_kotlin.ui.common_rv.commonRVadapter
+import com.example.storyapp_kotlin.utils.common_rv.commonRVadapter
 import com.example.storyapp_kotlin.utils.RecyclerViewBuilder.RecyclerViewBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,9 +61,12 @@ class InProgressStories : Fragment() {
     }
 
     private fun newReleaseRV(storyList : ArrayList<StoryModel>,userList:ArrayList<UserModel>){
+
+        val sortedStoryList = sortedStoryList(storyList)
+
         RecyclerViewBuilder(requireContext())
             .withCategory("New Release")
-            .withAdapter(commonRVadapter(storyList,userList))
+            .withAdapter(commonRVadapter(sortedStoryList,userList))
             .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
             .build(binding.newRelease)
     }
@@ -74,6 +77,10 @@ class InProgressStories : Fragment() {
             .withAdapter(commonRVadapter(storyList,userList))
             .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
             .build(binding.inProgressStories)
+    }
+
+    private fun sortedStoryList(storyList: ArrayList<StoryModel>): ArrayList<StoryModel> {
+        return storyList.sortedBy { it.createdDate }.reversed() as ArrayList<StoryModel>
     }
 
 }

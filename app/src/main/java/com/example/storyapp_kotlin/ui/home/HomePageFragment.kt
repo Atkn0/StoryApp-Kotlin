@@ -50,6 +50,10 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.profileCardView.setOnClickListener {
+            val action = HomePageFragmentDirections.actionHomePageFragmentToProfilePageFragment()
+            navigationManager.navigateTo(action)
+        }
 
         //Stringlerle çalışmak yerine daha güvenilir bir çözüm yolu bul!
         categoryRVadapter.onCategoryClick = {

@@ -13,7 +13,7 @@ import com.example.storyapp_kotlin.domain.usecase.GetAllUsersUseCase
 import com.example.storyapp_kotlin.domain.usecase.GetStoriesByCollectionUseCase
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
-import com.example.storyapp_kotlin.ui.common_rv.commonRVadapter
+import com.example.storyapp_kotlin.utils.common_rv.commonRVadapter
 import com.example.storyapp_kotlin.ui.home.adapter.categoryRVAdapter
 import com.example.storyapp_kotlin.utils.RecyclerViewBuilder.RecyclerViewBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,6 +27,16 @@ class LibraryFragment @Inject constructor() : Fragment() {
     lateinit var categoryRVadapter : categoryRVAdapter
     private lateinit var commonRVadapter: commonRVadapter
 
+    private var fragment_width : Int = 0
+    private var fragment_height : Int = 0
+
+    private var dpWidth = 0
+    private var dpHeight = 0
+
+
+
+
+
     private val libraryViewModel : LibraryFragmentViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +49,9 @@ class LibraryFragment @Inject constructor() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLibraryBinding.inflate(inflater, container, false)
+        val displayMetrics = resources.displayMetrics
+        dpWidth = displayMetrics.widthPixels / 2
+        dpHeight = (displayMetrics.heightPixels * 4) / 10
         initalizeCategory()
         libraryViewModel.loadDataAndCallFunction(::initializeStoriesRV)
         // Inflate the layout for this fragment
@@ -49,6 +62,17 @@ class LibraryFragment @Inject constructor() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        view.postDelayed({
+            // FrameLayout'ın genişliğini al
+            fragment_width = binding.fragmentLibraryConstraintLayout.width
+
+            println("dpwidth = " + dpWidth)
+
+            println("frameLayoutWidth: $fragment_width")
+        }, 100)
+
+
+        //categoryAdapter.onCategoryClick = ::updateStoriesForCategory ile kısaltılabilir
         categoryRVadapter.onCategoryClick = {category ->
             when(category){
                 "Saved Books" -> {
@@ -81,7 +105,7 @@ class LibraryFragment @Inject constructor() : Fragment() {
     }
 
     private fun initializeStoriesRV(storiesList : ArrayList<StoryModel>,userList : ArrayList<UserModel>){
-        commonRVadapter = commonRVadapter(storiesList,userList)
+        commonRVadapter = commonRVadapter(storiesList,userList, width = dpWidth, height = dpHeight)
         binding.libraryStoriesRecyclerView.adapter = commonRVadapter
         binding.libraryStoriesRecyclerView.layoutManager = GridLayoutManager(requireContext(),2)
     }

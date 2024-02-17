@@ -16,7 +16,7 @@ import com.example.storyapp_kotlin.databinding.FragmentCompletedStoriesBinding
 import com.example.storyapp_kotlin.domain.usecase.GetAllUsersUseCase
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
-import com.example.storyapp_kotlin.ui.common_rv.commonRVadapter
+import com.example.storyapp_kotlin.utils.common_rv.commonRVadapter
 import com.example.storyapp_kotlin.utils.RecyclerViewBuilder.RecyclerViewBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -48,8 +48,6 @@ class CompletedStoriesFragment @Inject constructor() : Fragment() {
 
         completedStoriesViewModel.combinedLiveData.observe(viewLifecycleOwner) { (storyList,userList) ->
             if (storyList != null && userList != null) {
-                println("storyList: $storyList")
-                println("userList: $userList")
                 initializeRV(storyList,userList)
             }
         }
@@ -71,17 +69,23 @@ class CompletedStoriesFragment @Inject constructor() : Fragment() {
 
     //RecyclerViewBuilder için bir fonksiyon oluşturabilirsin!
     private fun recentlyCompletedRV(storyList: ArrayList<StoryModel>,userList : ArrayList<UserModel>) {
+
+        val recentlyCompletedList = recentlyCreatedStories(storyList)
+
         RecyclerViewBuilder(requireContext())
             .withCategory("Recently Completed")
-            .withAdapter(commonRVadapter(storyList,userList))
+            .withAdapter(commonRVadapter(recentlyCompletedList,userList))
             .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
             .build(binding.recentlyCompleted)
     }
 
     private fun topRatedRV(storyList: ArrayList<StoryModel>,userList : ArrayList<UserModel>) {
+
+        val topRatedStories = getTopRatedStories(storyList)
+
         RecyclerViewBuilder(requireContext())
             .withCategory("Top Rated")
-            .withAdapter(commonRVadapter(storyList,userList))
+            .withAdapter(commonRVadapter(topRatedStories,userList))
             .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
             .build(binding.topRated)
     }
@@ -93,6 +97,24 @@ class CompletedStoriesFragment @Inject constructor() : Fragment() {
             .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
             .build(binding.completedStories)
     }
+
+
+    // Bu fonksiyon için StoryModel içerisine Completed Time eklenmeli!
+    private fun recentlyCreatedStories(storyList: ArrayList<StoryModel>): ArrayList<StoryModel> {
+        return storyList.sortedBy { it.createdDate }.reversed() as ArrayList<StoryModel>
+    }
+
+
+    private fun getTopRatedStories(storyList: List<StoryModel>): ArrayList<StoryModel> {
+        return storyList.sortedByDescending { story ->
+            (story.numberOfLikes ?: 0) / (story.numberOfReader ?: 1).toDouble()
+        }.toCollection(ArrayList())
+    }
+
+
+
+
+
 
 
 }

@@ -1,4 +1,4 @@
-package com.example.storyapp_kotlin.ui.common_rv
+package com.example.storyapp_kotlin.utils.common_rv
 
 import android.app.ActionBar.LayoutParams
 import android.view.LayoutInflater
@@ -12,8 +12,14 @@ import com.example.storyapp_kotlin.databinding.CommonRvLayoutBinding
 import com.example.storyapp_kotlin.databinding.FragmentTrendingBinding
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
+import com.squareup.picasso.Picasso
 
-class commonRVadapter(val storyList: ArrayList<StoryModel>,val userList: ArrayList<UserModel>) : RecyclerView.Adapter<commonRVadapter.ViewHolder>() {
+class commonRVadapter(
+    val storyList: ArrayList<StoryModel>,
+    val userList: ArrayList<UserModel>,
+    private val height : Int = 644,
+    private val width : Int = 448
+    ) : RecyclerView.Adapter<commonRVadapter.ViewHolder>() {
     class ViewHolder(val binding: CommonRvItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -33,12 +39,15 @@ class commonRVadapter(val storyList: ArrayList<StoryModel>,val userList: ArrayLi
         createItemUI(holder, position)
         matchCreatorToStory(holder, storyList[position])
 
+
         //for story book cover
         Glide.with(holder.itemView.context)
             .load(storyList[position].storyImageUrl)
-            .override(448,644)
+            .override(width,height)
             .centerCrop()
             .into(holder.binding.bookCoverImageView)
+
+
     }
 
     private fun createItemUI(holder: ViewHolder, position: Int) {

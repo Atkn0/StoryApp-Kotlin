@@ -16,7 +16,7 @@ import com.example.storyapp_kotlin.R
 import com.example.storyapp_kotlin.databinding.FragmentTrendingBinding
 import com.example.storyapp_kotlin.models.StoryModel
 import com.example.storyapp_kotlin.models.UserModel
-import com.example.storyapp_kotlin.ui.common_rv.commonRVadapter
+import com.example.storyapp_kotlin.utils.common_rv.commonRVadapter
 import com.example.storyapp_kotlin.utils.RecyclerViewBuilder.RecyclerViewBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.ArrayList
@@ -54,7 +54,7 @@ class TrendingFragment : Fragment() {
     }
 
     private fun getAllUsers(){
-        trendingViewModel.getAllUsers()
+        trendingViewModel. getAllUsers()
     }
 
     private fun initializeRv(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>) {
@@ -63,19 +63,45 @@ class TrendingFragment : Fragment() {
     }
 
     private fun trendingTopRV(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>){
-        RecyclerViewBuilder(requireContext())
-            .withCategory("Top Trending")
-            .withAdapter(commonRVadapter(storyList,userList))
-            .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
-            .build(binding.trendingTop)
+
+        val sortedStoryList = sortStoriesByTrendingScore(storyList)
+
+        createRV(sortedStoryList,userList,"TrendingTop",binding.trendingTop)
     }
 
     private fun trendingRV(storyList : ArrayList<StoryModel>,userList: ArrayList<UserModel>){
+        createRV(storyList,userList,"Trending",binding.trending)
+    }
+
+    private fun createRV(
+        storyList: ArrayList<StoryModel>,
+        userList: ArrayList<UserModel>,
+        category: String,
+        layout: FrameLayout
+    ) {
         RecyclerViewBuilder(requireContext())
-            .withCategory("Trending")
-            .withAdapter(commonRVadapter(storyList,userList))
+            .withCategory(category)
+            .withAdapter(commonRVadapter(storyList, userList))
             .withLayoutManager(LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false))
-            .build(binding.trending)
+            .build(layout)
+    }
+
+
+    private fun sortStoriesByTrendingScore(storyList: ArrayList<StoryModel>): ArrayList<StoryModel> {
+        val sortedList = storyList.sortedByDescending { getTrendingScore(it) }
+        return ArrayList(sortedList)
+    }
+
+
+    private fun getTrendingScore(story: StoryModel): Double {
+        val likesRatio = (story.numberOfLikes ?: 0) / (story.numberOfReader ?: 1).toDouble()
+        val currentTimeMillis = System.currentTimeMillis()
+        val createdAtMillis = story.createdDate?.toDate()?.time ?: currentTimeMillis
+        val elapsedTimeDays = (currentTimeMillis - createdAtMillis) / (24 * 60 * 60 * 1000) // Geçen zamanı gün cinsinden hesapla
+
+        // Trend skoru hesaplama formülü
+        val trendScore = likesRatio / (1 + elapsedTimeDays) // 1 gün sonrası için düşüş başlar
+        return trendScore
     }
 
 

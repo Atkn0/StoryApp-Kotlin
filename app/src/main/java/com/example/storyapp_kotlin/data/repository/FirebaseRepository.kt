@@ -18,7 +18,7 @@ class FirebaseRepository @Inject constructor(){
 
     private val db = Firebase.firestore
     private val auth = Firebase.auth
-    private val inProgressStories = db.collection("InProgressStories")
+    private val inProgressStories = db.collection("TrendingStories")
     private val users_ref = db.collection("Users")
 
 

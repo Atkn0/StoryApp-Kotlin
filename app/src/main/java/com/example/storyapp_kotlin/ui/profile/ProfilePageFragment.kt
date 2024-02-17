@@ -33,21 +33,13 @@ class profilePageFragment : Fragment() {
         binding = FragmentProfilePageBinding.inflate(inflater, container, false)
 
 
-
-
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.signOutButton.setOnClickListener {
-            lifecycleScope.launch {
-                println("Çıkış yapılıyor...")
-                authViewModel.userSignOut()
-            }
-        }
+
 
     }
 
