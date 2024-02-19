@@ -42,13 +42,15 @@ class HomePageFragment : Fragment() {
     ): View {
         binding = FragmentHomePageBinding.inflate(inflater, container, false)
         initalizeRV()
-        setFragment(trendingFragment)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        setFragment(trendingFragment)
+
 
         binding.profileCardView.setOnClickListener {
             val action = HomePageFragmentDirections.actionHomePageFragmentToProfilePageFragment()
@@ -74,6 +76,7 @@ class HomePageFragment : Fragment() {
         //Burada existing fragment olayını incele. Eğer bottom nav ile uyumlu yapabiliyorsan ilerisi için daha iyi olur!
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.homeFrameLayout, fragment, fragment.javaClass.simpleName)
+            .addToBackStack(null)
             .commit()
     }
 

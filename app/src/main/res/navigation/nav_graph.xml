@@ -81,6 +81,12 @@
         <action
             android:id="@+id/action_profilePageFragment_to_homePageFragment"
             app:destination="@id/homePageFragment" />
+        <action
+            android:id="@+id/action_profilePageFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_profilePageFragment_to_profileDetailsFragment"
+            app:destination="@id/profileDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/joinTheStoryPage"
@@ -118,5 +124,17 @@
         <argument
             android:name="currentStory"
             app:argType="com.example.storyapp_kotlin.models.SafeArgsObject" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileDetailsFragment"
+        android:name="com.example.storyapp_kotlin.ui.profile.profile_details.ProfileDetailsFragment"
+        android:label="fragment_profile_details"
+        tools:layout="@layout/fragment_profile_details" >
+        <action
+            android:id="@+id/action_profileDetailsFragment_to_profilePageFragment"
+            app:destination="@id/profilePageFragment" />
+        <argument
+            android:name="currentUser"
+            app:argType="com.example.storyapp_kotlin.models.UserModel" />
     </fragment>
 </navigation>

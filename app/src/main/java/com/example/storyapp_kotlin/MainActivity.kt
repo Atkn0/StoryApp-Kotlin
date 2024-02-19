@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.AttributeSet
 import android.view.View
+import android.window.OnBackInvokedDispatcher
+import android.window.SplashScreen
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
@@ -24,47 +28,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val splashScreen = installSplashScreen()
 
-
-
-        //checks user sign status beginning of the app
-        var userStatusCheck = authViewModel.checkUserSignStatus()
-        if (userStatusCheck){
-            navigateFunc(R.id.action_loginFragment_to_homePageFragment)
-            userStatusCheck = !userStatusCheck
-        }
-
-        splashScreen.setKeepOnScreenCondition { userStatusCheck }
-
-        authViewModel.isUserSignedIn.observe(this) {
-            if (it) {
-                navigateFunc(R.id.action_loginFragment_to_homePageFragment)
-            }else{
-                println("Kullanıcı çıkış yaptı!")
-            }
-        }
-
-        val bottomNavView = binding.bottomNavigationView
-        val navHost =
-            supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
-        val navController = navHost.navController
-        bottomNavView.setupWithNavController(navController)
-
+        authListener()
+        setupNavController()
+        androidSystemBackButton()
 
         setContentView(binding.root)
-    }
-
-    override fun onCreateView(
-        parent: View?,
-        name: String,
-        context: Context,
-        attrs: AttributeSet
-    ): View? {
-        return super.onCreateView(parent, name, context, attrs)
-
 
     }
+
+
+
 
 
 
@@ -73,6 +47,41 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHost.navController
         navController.navigate(action)
+    }
+
+    private fun authListener(){
+
+        val splashScreen = installSplashScreen()
+
+        authViewModel.checkUserSignStatus().let { userSignedIn ->
+            if (userSignedIn) {
+                navigateFunc(R.id.action_loginFragment_to_homePageFragment)
+            } else {
+                splashScreen.setKeepOnScreenCondition { false }
+                authViewModel.isUserSignedIn.observe(this) { signInStatus ->
+                    if (signInStatus) {
+                        navigateFunc(R.id.action_loginFragment_to_homePageFragment)
+                    } else {
+                        println("Kullanıcı çıkış yaptı!")
+                    }
+                }
+            }
+        }
+
+    }
+    private fun setupNavController(){
+        // Bottom navigation view için NavController'ı ayarlama
+        val bottomNavView = binding.bottomNavigationView
+        val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHost.navController
+        bottomNavView.setupWithNavController(navController)
+    }
+
+    private fun androidSystemBackButton(){
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {}
+        }
+        onBackPressedDispatcher.addCallback(this, callback)
     }
 
 }

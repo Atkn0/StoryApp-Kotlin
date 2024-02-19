@@ -35,15 +35,20 @@ class TrendingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        println("TrendingFragment: onCreateView")
         binding = FragmentTrendingBinding.inflate(inflater, container, false)
         trendingViewModel.getStoriesByCollection("TrendingStories")
         getAllUsers()
         return binding.root
     }
 
+
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        println("TrendingFragment: onViewCreated")
         trendingViewModel.combinedLiveData.observe(viewLifecycleOwner) { (storyList,userList) ->
             if (storyList != null && userList != null) {
                 initializeRv(storyList,userList)

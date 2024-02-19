@@ -14,7 +14,7 @@ class AuthViewModel @Inject constructor(
 ): ViewModel(){
 
 
-    var isUserSignedIn = MutableLiveData<Boolean>(false)
+    var isUserSignedIn = MutableLiveData<Boolean>()
 
 
     fun userLogin(email : String, password : String){
@@ -28,10 +28,6 @@ class AuthViewModel @Inject constructor(
             }
     }
 
-    fun userSignOut(){
-        auth.signOut()
-        updateUserSignInStatus()
-    }
 
     fun createUser(email : String, password : String){
         auth.createUserWithEmailAndPassword(email, password)
@@ -44,6 +40,12 @@ class AuthViewModel @Inject constructor(
                     println("Create User Failed")
                 }
             }
+    }
+
+
+    fun logout(){
+        auth.signOut()
+        updateUserSignInStatus()
     }
 
     fun updateUserSignInStatus(){
